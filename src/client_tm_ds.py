@@ -3,25 +3,34 @@ import deepsecurity
 import re
 import logging
 import config
+import base64
 from os import environ
 from envparse import env
 from datetime import datetime, timedelta
+
 
 # Logging configuration
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=config.LOG_LEVEL)
 
 # Deep Security configuration
-ds_host = env.str(
-    "DS_HOST", default=config.DS_HOST)
-ds_port = env.str(
-    "DS_HOST", default=config.DS_PORT)
-ds_user = env.str(
-    "DS_HOST", default=config.DS_USER)
-ds_pass = env.str(
-    "DS_HOST", default=config.DS_PASS)
-ds_ver_ssl = env.str(
-    "DS_HOST", default=config.DS_IGNORE_VERIFY_SSL)    
+try:
+    ds_host = env.str(
+        "DS_HOST", default=config.DS_HOST)
+    ds_port = env.str(
+        "DS_PORT", default=config.DS_PORT)
+    ds_user = env.str(
+        "DS_USER", default=config.DS_USER)
+    ds_pass = env.str(
+        "DS_PASS", default=config.DS_PASS)
+    ds_ver_ssl = env.str(
+        "DS_VERIFY_SSL", default=config.DS_IGNORE_VERIFY_SSL)
+except Exception as e:
+    logging.info('failed to load configurations...')    
+
+
+ds_user = (base64.b64decode(ds_user))
+ds_pass = (base64.b64decode(ds_pass))
 
 linux_regex = 'linux|amazon|debian|ubuntu|oracle|centos|red\shat'
 

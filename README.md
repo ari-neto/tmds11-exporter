@@ -37,7 +37,7 @@ About vulnerabilities status:
 
 * **discovered:** vulnerabilities that are detected but the IPS is not enabled on the host
 * **detect:** vulnerabilities with IPS enabled but configured on detect mode
-* **prevent:** vulnerabilities with IPS enabled but configured on prevent mode
+* **prevent:** vulnerabilities with IPS enabled and configured on prevent mode
 
 ## environment:
 
@@ -65,21 +65,27 @@ pipenv shell
 pip install -r requiriments.txt
 ~~~
 
-### running app:
+### running the app:
 
-You should configure a config.py (renaming config_sample.py to config.py with your configurations), or use environment variables, to configure:
+You should configure a config.py (**renaming config_sample.py to config.py** with your configuration), or using environment variables, to configure:
 
 | Variable    | Description                    | Value                          | Value Type  |
 |-------------|--------------------------------|--------------------------------|-------------|
 |DS_HOST      | DSM Hostname                   | ip|fqdn                        | string|
 |DS_PORT      | DSM TCP Port                   | port Number                    | string|
-|DS_USER      | User Account (read only)       | user_name                      | string|
-|DS_PASS      | User Password                  | user_pass                      | string|
+|DS_USER      | User Account (read only)       | user_name - base64 encoded     | string|
+|DS_PASS      | User Password                  | user_pass - base64 encoded     | string|
 |DS_VERIFY_SSL| SSL Verify                     | True|False                     | boolean|
 |DS_API_CHECK | Cache API data                 | time in minutes                | integer|
 |SERVER_PORT  | Prometheus Collector TCP Port  | port number                    | integer|
 |LOG_LEVEL    | Log level                      | INFO|WARN|DEBUG|ERROR|CRITICAL | string|
 
+To encode your credentials:
+
+~~~sh
+echo -ne '<ds_user>'|base64
+echo -ne '<ds_pass>'|base64
+~~~
 
 ### enabling soap web api
 
@@ -94,5 +100,17 @@ We need to enable SOAP Web API on the DSM. To do it, you should to to:
 ### grafana dashboard:
 
 Import the dashboard located on: grafana/dash.json
+
+* **dashboard:**
+
+![dashboard](img/grafana-dash.png)
+
+* **filtering by type:** 
+  
+![dashboard](img/grafana-dash-type.png)
+
+
+
+
 
 
