@@ -1,0 +1,2 @@
+envparse==0.2.0
+prometheus-client==0.7.1
