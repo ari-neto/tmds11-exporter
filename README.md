@@ -107,7 +107,7 @@ Import the dashboard located on: grafana/dash.json
 
 * **filtering by type:** 
   
-![dashboard](img/grafana-dash-type.pn
+![dashboard](img/grafana-dash-type.png)
 
 
 ## Referencess:
@@ -120,6 +120,11 @@ I've included inside this project the last version of the SDK for DS 9 to 11 ver
 
 I've based the collector structure on this example [https://github.com/jakirpatel/prometheus-custom-collector/blob/master/code/collector.py](https://github.com/jakirpatel/prometheus-custom-collector/blob/master/code/collector.py) developed by @jakirpatel.
 
+## Support:
+
+This project is not part of any Trend Micro Deep Security project and it is not supported by Trend Micro. 
+
+Use and adapt to your needs and PRs are welcomed.
 
 
 
