@@ -1,0 +1,1335 @@
+{
+    "annotations": {
+        "list": [
+            {
+                "builtIn": 1,
+                "datasource": "-- Grafana --",
+                "enable": true,
+                "hide": true,
+                "iconColor": "rgba(0, 211, 255, 1)",
+                "name": "Annotations & Alerts",
+                "type": "dashboard"
+            }
+        ]
+    },
+    "editable": true,
+    "gnetId": null,
+    "graphTooltip": 0,
+    "id": 4,
+    "iteration": 1585927851683,
+    "links": [],
+    "panels": [
+        {
+            "collapsed": false,
+            "datasource": null,
+            "gridPos": {
+                "h": 1,
+                "w": 24,
+                "x": 0,
+                "y": 0
+            },
+            "id": 40,
+            "panels": [],
+            "title": "Summary",
+            "type": "row"
+        },
+        {
+            "datasource": null,
+            "gridPos": {
+                "h": 5,
+                "w": 4,
+                "x": 0,
+                "y": 1
+            },
+            "id": 42,
+            "options": {
+                "colorMode": "value",
+                "fieldOptions": {
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "defaults": {
+                        "mappings": [],
+                        "thresholds": {
+                            "mode": "absolute",
+                            "steps": [
+                                {
+                                    "color": "blue",
+                                    "value": null
+                                }
+                            ]
+                        }
+                    },
+                    "overrides": [],
+                    "values": false
+                },
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "auto"
+            },
+            "pluginVersion": "6.6.2",
+            "targets": [
+                {
+                    "expr": "sum(deep_security_vulnerabilities_total{job=\"deep-security\",metric=\"ips_rules\",status=\"all\",mode=\"all\",platform=~\"[[platform]]\",type=~\"managed|unmanaged|critical|warning|unknown\"})",
+                    "legendFormat": "{{ platform }}",
+                    "refId": "A"
+                }
+            ],
+            "timeFrom": null,
+            "timeShift": null,
+            "title": "Vulnerabilities",
+            "type": "stat"
+        },
+        {
+            "datasource": null,
+            "gridPos": {
+                "h": 5,
+                "w": 4,
+                "x": 4,
+                "y": 1
+            },
+            "id": 43,
+            "options": {
+                "colorMode": "value",
+                "fieldOptions": {
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "defaults": {
+                        "mappings": [],
+                        "thresholds": {
+                            "mode": "absolute",
+                            "steps": [
+                                {
+                                    "color": "blue",
+                                    "value": null
+                                }
+                            ]
+                        }
+                    },
+                    "overrides": [],
+                    "values": false
+                },
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "auto"
+            },
+            "pluginVersion": "6.6.2",
+            "targets": [
+                {
+                    "expr": "sum(deep_security_vulnerabilities_total{job=\"deep-security\",metric=\"ips_rules\",status=\"prevent\",mode=\"all\",platform=~\"[[platform]]\",type=~\"managed|unmanaged|critical|warning|unknown\"})",
+                    "legendFormat": "protected",
+                    "refId": "A"
+                },
+                {
+                    "expr": "sum(deep_security_vulnerabilities_total{job=\"deep-security\",metric=\"ips_rules\",status=\"detect\",mode=\"all\",platform=~\"[[platform]]\",type=~\"managed|unmanaged|critical|warning|unknown\"})",
+                    "legendFormat": "detected",
+                    "refId": "C"
+                },
+                {
+                    "expr": "sum(deep_security_vulnerabilities_total{job=\"deep-security\",metric=\"ips_rules\",status=\"discovered\",mode=\"all\",platform=~\"[[platform]]\",type=~\"managed|unmanaged|critical|warning|unknown\"})",
+                    "legendFormat": "discovered",
+                    "refId": "B"
+                },
+                {
+                    "expr": "sum(deep_security_vulnerabilities_total{job=\"deep-security\",metric=\"ips_rules\",status=\"all\",mode=\"all\",platform=~\"[[platform]]\",type=~\"managed|unmanaged|critical|warning|unknown\"}) - on (metric) sum(deep_security_vulnerabilities_total{job=\"deep-security\",metric=\"ips_rules\",status=\"prevent\",mode=\"all\",platform=~\"[[platform]]\",type=~\"managed|unmanaged|critical|warning|unknown\"})",
+                    "hide": true,
+                    "legendFormat": "exposed",
+                    "refId": "D"
+                }
+            ],
+            "timeFrom": null,
+            "timeShift": null,
+            "title": "Type",
+            "type": "stat"
+        },
+        {
+            "cacheTimeout": null,
+            "datasource": "prometheus-ds",
+            "gridPos": {
+                "h": 5,
+                "w": 4,
+                "x": 8,
+                "y": 1
+            },
+            "id": 4,
+            "links": [],
+            "options": {
+                "colorMode": "value",
+                "fieldOptions": {
+                    "calcs": [
+                        "last"
+                    ],
+                    "defaults": {
+                        "mappings": [
+                            {
+                                "id": 0,
+                                "op": "=",
+                                "text": "N/A",
+                                "type": 1,
+                                "value": "null"
+                            }
+                        ],
+                        "nullValueMode": "connected",
+                        "thresholds": {
+                            "mode": "absolute",
+                            "steps": [
+                                {
+                                    "color": "blue",
+                                    "value": null
+                                }
+                            ]
+                        },
+                        "unit": "percent"
+                    },
+                    "overrides": [],
+                    "values": false
+                },
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "horizontal"
+            },
+            "pluginVersion": "6.6.2",
+            "targets": [
+                {
+                    "expr": "(sum((deep_security_vulnerabilities_total{job=\"deep-security\",metric=\"ips_rules\",status=\"all\",mode=\"all\",platform=~\"[[platform]]\",type=~\"[[type]]\"})) / on (metric) (sum(deep_security_vulnerabilities_total{job=\"deep-security\",metric=\"ips_rules\",status=\"all\",mode=\"all\",platform=\"all\",type=~\"managed|unmanaged|critical|warning|unknown\"}))) * 100",
+                    "legendFormat": "{{ platform }}",
+                    "refId": "A"
+                }
+            ],
+            "timeFrom": null,
+            "timeShift": null,
+            "title": "Vulnerabilities ($type)",
+            "type": "stat"
+        },
+        {
+            "datasource": "prometheus-ds",
+            "gridPos": {
+                "h": 5,
+                "w": 4,
+                "x": 12,
+                "y": 1
+            },
+            "id": 14,
+            "options": {
+                "colorMode": "value",
+                "fieldOptions": {
+                    "calcs": [
+                        "lastNotNull"
+                    ],
+                    "defaults": {
+                        "mappings": [],
+                        "thresholds": {
+                            "mode": "absolute",
+                            "steps": [
+                                {
+                                    "color": "blue",
+                                    "value": null
+                                }
+                            ]
+                        },
+                        "unit": "percent"
+                    },
+                    "overrides": [],
+                    "values": false
+                },
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "auto"
+            },
+            "pluginVersion": "6.6.2",
+            "targets": [
+                {
+                    "expr": "(sum((deep_security_vulnerabilities_total{job=\"deep-security\",metric=\"ips_rules\",status=\"prevent\",mode=\"all\",platform=~\"[[platform]]\",type=~\"[[type]]\"})) / on (metric) (sum(deep_security_vulnerabilities_total{job=\"deep-security\",metric=\"ips_rules\",status=\"all\",mode=\"all\",platform=\"all\",type=~\"managed|unmanaged|critical|warning|unknown\"}))) * 100",
+                    "legendFormat": "protected",
+                    "refId": "A"
+                },
+                {
+                    "expr": "(sum((deep_security_vulnerabilities_total{job=\"deep-security\",metric=\"ips_rules\",status=\"detect\",mode=\"all\",platform=~\"[[platform]]\",type=~\"[[type]]\"})) / on (metric) (sum(deep_security_vulnerabilities_total{job=\"deep-security\",metric=\"ips_rules\",status=\"all\",mode=\"all\",platform=\"all\",type=~\"managed|unmanaged|critical|warning|unknown\"}))) * 100",
+                    "legendFormat": "detected",
+                    "refId": "B"
+                },
+                {
+                    "expr": "(sum((deep_security_vulnerabilities_total{job=\"deep-security\",metric=\"ips_rules\",status=\"discovered\",mode=\"all\",platform=~\"[[platform]]\",type=~\"[[type]]\"})) / on (metric) (sum(deep_security_vulnerabilities_total{job=\"deep-security\",metric=\"ips_rules\",status=\"all\",mode=\"all\",platform=\"all\",type=~\"managed|unmanaged|critical|warning|unknown\"}))) * 100",
+                    "legendFormat": "discovered",
+                    "refId": "C"
+                },
+                {
+                    "expr": "(sum(deep_security_vulnerabilities_total{job=\"deep-security\",metric=\"ips_rules\",status=\"all\",mode=\"all\",platform=~\"[[platform]]\",type=\"[[type]]\"}) - on (metric) sum(deep_security_vulnerabilities_total{job=\"deep-security\",metric=\"ips_rules\",status=\"prevent\",mode=\"all\",platform=~\"[[platform]]\",type=\"[[type]]\"})) / on (metric) (sum(deep_security_vulnerabilities_total{job=\"deep-security\",metric=\"ips_rules\",status=\"all\",mode=\"all\",platform=\"all\",type=~\"managed|unmanaged|critical|warning|unknown\"})) * 100",
+                    "hide": true,
+                    "legendFormat": "exposed",
+                    "refId": "D"
+                }
+            ],
+            "timeFrom": null,
+            "timeShift": null,
+            "title": "Type ($type)",
+            "type": "stat"
+        },
+        {
+            "datasource": "prometheus-ds",
+            "gridPos": {
+                "h": 5,
+                "w": 4,
+                "x": 16,
+                "y": 1
+            },
+            "id": 8,
+            "options": {
+                "colorMode": "value",
+                "fieldOptions": {
+                    "calcs": [
+                        "last"
+                    ],
+                    "defaults": {
+                        "mappings": [],
+                        "thresholds": {
+                            "mode": "absolute",
+                            "steps": [
+                                {
+                                    "color": "green",
+                                    "value": null
+                                }
+                            ]
+                        }
+                    },
+                    "overrides": [],
+                    "values": false
+                },
+                "graphMode": "area",
+                "justifyMode": "auto",
+                "orientation": "auto"
+            },
+            "pluginVersion": "6.6.2",
+            "targets": [
+                {
+                    "expr": "sum(deep_security_computers_total{job=\"deep-security\",metric=\"os_type\",type=~\"managed|unmanaged|warning|critical|unknown\",status=\"all\",platform=~\"[[platform]]\"})",
+                    "legendFormat": "total",
+                    "refId": "A"
+                },
+                {
+                    "expr": "sum(deep_security_computers_total{job=\"deep-security\",metric=\"os_type\",type=~\"[[type]]\",status=\"all\",platform=~\"[[platform]]\"})",
+                    "legendFormat": "{{ $type }}",
+                    "refId": "B"
+                }
+            ],
+            "timeFrom": null,
+            "timeShift": null,
+            "title": "Hosts Total",
+            "type": "stat"
+        },
+        {
+            "datasource": "prometheus-ds",
+            "gridPos": {
+                "h": 5,
+                "w": 4,
+                "x": 20,
+                "y": 1
+            },
+            "id": 46,
+            "options": {
+                "fieldOptions": {
+                    "calcs": [
+                        "last"
+                    ],
+                    "defaults": {
+                        "decimals": 1,
+                        "mappings": [],
+                        "max": 100,
+                        "min": 0,
+                        "thresholds": {
+                            "mode": "absolute",
+                            "steps": [
+                                {
+                                    "color": "green",
+                                    "value": null
+                                },
+                                {
+                                    "color": "#EAB839",
+                                    "value": 10
+                                },
+                                {
+                                    "color": "#E24D42",
+                                    "value": 25
+                                }
+                            ]
+                        },
+                        "unit": "percent"
+                    },
+                    "overrides": [],
+                    "values": false
+                },
+                "orientation": "auto",
+                "showThresholdLabels": false,
+                "showThresholdMarkers": true
+            },
+            "pluginVersion": "6.6.2",
+            "targets": [
+                {
+                    "expr": "(sum(deep_security_vulnerabilities_total{job=\"deep-security\",metric=\"ips_rules\",status=\"all\",mode=\"all\",platform=~\"[[platform]]\",type=~\"managed|unmanaged|critical|warning|unknown\"}) - on (metric) sum(deep_security_vulnerabilities_total{job=\"deep-security\",metric=\"ips_rules\",status=\"prevent\",mode=\"all\",platform=~\"[[platform]]\",type=~\"managed|unmanaged|critical|warning|unknown\"})) / on (metric) sum(deep_security_vulnerabilities_total{job=\"deep-security\",metric=\"ips_rules\",status=\"all\",mode=\"all\",platform=~\"[[platform]]\",type=~\"managed|unmanaged|critical|warning|unknown\"}) * 100",
+                    "refId": "A"
+                }
+            ],
+            "timeFrom": null,
+            "timeShift": null,
+            "title": "% Exposed",
+            "type": "gauge"
+        },
+        {
+            "collapsed": false,
+            "datasource": null,
+            "gridPos": {
+                "h": 1,
+                "w": 24,
+                "x": 0,
+                "y": 6
+            },
+            "id": 33,
+            "panels": [],
+            "title": "Distribution",
+            "type": "row"
+        },
+        {
+            "aliasColors": {},
+            "breakPoint": "50%",
+            "cacheTimeout": null,
+            "combine": {
+                "label": "Others",
+                "threshold": 0
+            },
+            "datasource": "prometheus-ds",
+            "fontSize": "80%",
+            "format": "short",
+            "gridPos": {
+                "h": 8,
+                "w": 4,
+                "x": 0,
+                "y": 7
+            },
+            "id": 16,
+            "interval": null,
+            "legend": {
+                "percentage": true,
+                "show": true,
+                "values": true
+            },
+            "legendType": "On graph",
+            "links": [],
+            "maxDataPoints": 3,
+            "nullPointMode": "connected",
+            "options": {},
+            "pieType": "donut",
+            "strokeWidth": 1,
+            "targets": [
+                {
+                    "expr": "sum(deep_security_computers_total{job=\"deep-security\",metric=\"os_type\",type=\"managed\",status=\"all\",platform=\"all\"})",
+                    "legendFormat": "managed",
+                    "refId": "A"
+                },
+                {
+                    "expr": "sum(deep_security_computers_total{job=\"deep-security\",metric=\"os_type\",type!=\"managed\",status=\"all\",platform=\"all\"})",
+                    "legendFormat": "unmanaged",
+                    "refId": "B"
+                }
+            ],
+            "timeFrom": null,
+            "timeShift": null,
+            "title": "Deep Security Deployment",
+            "type": "grafana-piechart-panel",
+            "valueName": "current"
+        },
+        {
+            "aliasColors": {},
+            "breakPoint": "50%",
+            "cacheTimeout": null,
+            "combine": {
+                "label": "Others",
+                "threshold": 0
+            },
+            "datasource": "prometheus-ds",
+            "fontSize": "80%",
+            "format": "short",
+            "gridPos": {
+                "h": 8,
+                "w": 4,
+                "x": 4,
+                "y": 7
+            },
+            "id": 23,
+            "interval": null,
+            "legend": {
+                "percentage": true,
+                "show": true,
+                "values": true
+            },
+            "legendType": "On graph",
+            "links": [],
+            "maxDataPoints": 3,
+            "nullPointMode": "connected",
+            "options": {},
+            "pieType": "donut",
+            "strokeWidth": 1,
+            "targets": [
+                {
+                    "expr": "deep_security_computers_total{job=\"deep-security\",metric=\"os_type\",status=\"all\",platform=\"all\"}",
+                    "legendFormat": "{{ type }}",
+                    "refId": "A"
+                }
+            ],
+            "timeFrom": null,
+            "timeShift": null,
+            "title": "Managed Hosts p/status",
+            "type": "grafana-piechart-panel",
+            "valueName": "current"
+        },
+        {
+            "aliasColors": {},
+            "breakPoint": "50%",
+            "cacheTimeout": null,
+            "combine": {
+                "label": "Others",
+                "threshold": 0
+            },
+            "datasource": "prometheus-ds",
+            "fontSize": "80%",
+            "format": "short",
+            "gridPos": {
+                "h": 8,
+                "w": 4,
+                "x": 8,
+                "y": 7
+            },
+            "id": 18,
+            "interval": null,
+            "legend": {
+                "percentage": true,
+                "show": true,
+                "values": true
+            },
+            "legendType": "On graph",
+            "links": [],
+            "maxDataPoints": 3,
+            "nullPointMode": "connected",
+            "options": {},
+            "pieType": "donut",
+            "strokeWidth": 1,
+            "targets": [
+                {
+                    "expr": "sum(deep_security_vulnerabilities_total{type=~\"managed|unmanaged|critical|warning|unknown\",platform=~\"linux\",mode=\"all\",status=\"all\"})",
+                    "legendFormat": "linux",
+                    "refId": "A"
+                },
+                {
+                    "expr": "sum(deep_security_vulnerabilities_total{type=~\"managed|unmanaged|critical|warning|unknown\",platform=~\"windows\",mode=\"all\",status=\"all\"})",
+                    "legendFormat": "windows",
+                    "refId": "B"
+                },
+                {
+                    "expr": "sum(deep_security_vulnerabilities_total{type=~\"managed|unmanaged|critical|warning|unknown\",platform=~\"unknown\",mode=\"all\",status=\"all\"})",
+                    "legendFormat": "unknown",
+                    "refId": "C"
+                }
+            ],
+            "timeFrom": null,
+            "timeShift": null,
+            "title": "Vulnerabilities p/OS",
+            "type": "grafana-piechart-panel",
+            "valueName": "current"
+        },
+        {
+            "aliasColors": {},
+            "breakPoint": "50%",
+            "cacheTimeout": null,
+            "combine": {
+                "label": "Others",
+                "threshold": 0
+            },
+            "datasource": "prometheus-ds",
+            "fontSize": "80%",
+            "format": "short",
+            "gridPos": {
+                "h": 8,
+                "w": 4,
+                "x": 12,
+                "y": 7
+            },
+            "id": 12,
+            "interval": null,
+            "legend": {
+                "percentage": true,
+                "show": true,
+                "values": true
+            },
+            "legendType": "On graph",
+            "links": [],
+            "maxDataPoints": 3,
+            "nullPointMode": "connected",
+            "options": {},
+            "pieType": "donut",
+            "strokeWidth": 1,
+            "targets": [
+                {
+                    "expr": "deep_security_vulnerabilities_total{type=\"[[type]]\",platform=\"linux\",mode=\"all\",status=\"all\"}",
+                    "legendFormat": "linux",
+                    "refId": "A"
+                },
+                {
+                    "expr": "deep_security_vulnerabilities_total{type=\"[[type]]\",platform=\"windows\",mode=\"all\",status=\"all\"}",
+                    "legendFormat": "windows",
+                    "refId": "B"
+                },
+                {
+                    "expr": "deep_security_vulnerabilities_total{type=\"[[type]]\",platform=\"unknown\",mode=\"all\",status=\"all\"}",
+                    "legendFormat": "unknown",
+                    "refId": "C"
+                }
+            ],
+            "timeFrom": null,
+            "timeShift": null,
+            "title": "Vulnerabilities p/OS ($type agents)",
+            "type": "grafana-piechart-panel",
+            "valueName": "current"
+        },
+        {
+            "aliasColors": {},
+            "breakPoint": "50%",
+            "cacheTimeout": null,
+            "combine": {
+                "label": "Others",
+                "threshold": 0
+            },
+            "datasource": "prometheus-ds",
+            "fontSize": "80%",
+            "format": "short",
+            "gridPos": {
+                "h": 8,
+                "w": 4,
+                "x": 16,
+                "y": 7
+            },
+            "id": 34,
+            "interval": null,
+            "legend": {
+                "percentage": true,
+                "show": true,
+                "values": true
+            },
+            "legendType": "On graph",
+            "links": [],
+            "maxDataPoints": 3,
+            "nullPointMode": "connected",
+            "options": {},
+            "pieType": "donut",
+            "strokeWidth": 1,
+            "targets": [
+                {
+                    "expr": "deep_security_vulnerabilities_total{job=\"deep-security\",metric=\"ips_rules\",status!=\"all\",mode=\"all\",platform=\"all\",type=~\"[[type]]\"}",
+                    "legendFormat": "{{ status }}",
+                    "refId": "B"
+                }
+            ],
+            "timeFrom": null,
+            "timeShift": null,
+            "title": "Vulnerabilities ($type agents)",
+            "type": "grafana-piechart-panel",
+            "valueName": "current"
+        },
+        {
+            "datasource": "prometheus-ds",
+            "gridPos": {
+                "h": 8,
+                "w": 4,
+                "x": 20,
+                "y": 7
+            },
+            "id": 37,
+            "options": {
+                "fieldOptions": {
+                    "calcs": [
+                        "last"
+                    ],
+                    "defaults": {
+                        "decimals": 1,
+                        "mappings": [],
+                        "max": 100,
+                        "min": 0,
+                        "thresholds": {
+                            "mode": "absolute",
+                            "steps": [
+                                {
+                                    "color": "green",
+                                    "value": null
+                                },
+                                {
+                                    "color": "#EAB839",
+                                    "value": 10
+                                },
+                                {
+                                    "color": "#E24D42",
+                                    "value": 25
+                                }
+                            ]
+                        },
+                        "unit": "percent"
+                    },
+                    "overrides": [],
+                    "values": false
+                },
+                "orientation": "auto",
+                "showThresholdLabels": false,
+                "showThresholdMarkers": true
+            },
+            "pluginVersion": "6.6.2",
+            "targets": [
+                {
+                    "expr": "(sum(deep_security_vulnerabilities_total{job=\"deep-security\",metric=\"ips_rules\",status=\"all\",mode=\"all\",platform=~\"[[platform]]\",type=\"[[type]]\"}) - on (metric) sum(deep_security_vulnerabilities_total{job=\"deep-security\",metric=\"ips_rules\",status=\"prevent\",mode=\"all\",platform=~\"[[platform]]\",type=\"[[type]]\"})) / on (metric) sum(deep_security_vulnerabilities_total{job=\"deep-security\",metric=\"ips_rules\",status=\"all\",mode=\"all\",platform=~\"[[platform]]\",type=\"[[type]]\"}) * 100",
+                    "refId": "A"
+                }
+            ],
+            "timeFrom": null,
+            "timeShift": null,
+            "title": "% Exposed ($type)",
+            "type": "gauge"
+        },
+        {
+            "collapsed": false,
+            "datasource": null,
+            "gridPos": {
+                "h": 1,
+                "w": 24,
+                "x": 0,
+                "y": 15
+            },
+            "id": 28,
+            "panels": [],
+            "title": "Modules Usage",
+            "type": "row"
+        },
+        {
+            "datasource": "prometheus-ds",
+            "gridPos": {
+                "h": 6,
+                "w": 8,
+                "x": 0,
+                "y": 16
+            },
+            "id": 30,
+            "options": {
+                "displayMode": "gradient",
+                "fieldOptions": {
+                    "calcs": [
+                        "last"
+                    ],
+                    "defaults": {
+                        "mappings": [],
+                        "thresholds": {
+                            "mode": "absolute",
+                            "steps": [
+                                {
+                                    "color": "green",
+                                    "value": null
+                                }
+                            ]
+                        }
+                    },
+                    "overrides": [],
+                    "values": false
+                },
+                "orientation": "horizontal",
+                "showUnfilled": true
+            },
+            "pluginVersion": "6.6.2",
+            "targets": [
+                {
+                    "expr": "sum(deep_security_modules_total{job=\"deep-security\",metric=\"am_status\",status=\"on\",platform=~\"[[platform]]\",type=~\"managed|unmanaged|critical|warning|unknown\"})",
+                    "legendFormat": "antimalware",
+                    "refId": "A"
+                },
+                {
+                    "expr": "sum(deep_security_modules_total{job=\"deep-security\",metric=\"wr_status\",status=\"on\",platform=~\"[[platform]]\",type=~\"managed|unmanaged|critical|warning|unknown\"})",
+                    "legendFormat": "web reputation",
+                    "refId": "B"
+                },
+                {
+                    "expr": "sum(deep_security_modules_total{job=\"deep-security\",metric=\"fw_status\",status=\"on\",platform=~\"[[platform]]\",type=~\"managed|unmanaged|critical|warning|unknown\"})",
+                    "legendFormat": "firewall",
+                    "refId": "C"
+                },
+                {
+                    "expr": "sum(deep_security_modules_total{job=\"deep-security\",metric=\"ip_status\",status=\"on\",platform=~\"[[platform]]\",type=~\"managed|unmanaged|critical|warning|unknown\"})",
+                    "legendFormat": "ips",
+                    "refId": "D"
+                },
+                {
+                    "expr": "sum(deep_security_modules_total{job=\"deep-security\",metric=\"im_status\",status=\"on\",platform=~\"[[platform]]\",type=~\"managed|unmanaged|critical|warning|unknown\"})",
+                    "legendFormat": "integrity monitor",
+                    "refId": "E"
+                },
+                {
+                    "expr": "sum(deep_security_modules_total{job=\"deep-security\",metric=\"li_status\",status=\"on\",platform=~\"[[platform]]\",type=~\"managed|unmanaged|critical|warning|unknown\"})",
+                    "legendFormat": "log inspection",
+                    "refId": "F"
+                }
+            ],
+            "timeFrom": null,
+            "timeShift": null,
+            "title": "Modules Usage ($status agents)",
+            "type": "bargauge"
+        },
+        {
+            "datasource": "prometheus-ds",
+            "gridPos": {
+                "h": 6,
+                "w": 8,
+                "x": 8,
+                "y": 16
+            },
+            "id": 48,
+            "options": {
+                "displayMode": "gradient",
+                "fieldOptions": {
+                    "calcs": [
+                        "last"
+                    ],
+                    "defaults": {
+                        "mappings": [],
+                        "thresholds": {
+                            "mode": "absolute",
+                            "steps": [
+                                {
+                                    "color": "green",
+                                    "value": null
+                                }
+                            ]
+                        }
+                    },
+                    "overrides": [],
+                    "values": false
+                },
+                "orientation": "horizontal",
+                "showUnfilled": true
+            },
+            "pluginVersion": "6.6.2",
+            "targets": [
+                {
+                    "expr": "sum(deep_security_modules_total{job=\"deep-security\",metric=\"am_status\",status=\"on\",platform=~\"[[platform]]\",type=~\"[[type]]\"})",
+                    "legendFormat": "antimalware",
+                    "refId": "A"
+                },
+                {
+                    "expr": "sum(deep_security_modules_total{job=\"deep-security\",metric=\"wr_status\",status=\"on\",platform=~\"[[platform]]\",type=~\"[[type]]\"})",
+                    "legendFormat": "web reputation",
+                    "refId": "B"
+                },
+                {
+                    "expr": "sum(deep_security_modules_total{job=\"deep-security\",metric=\"fw_status\",status=\"on\",platform=~\"[[platform]]\",type=~\"[[type]]\"})",
+                    "legendFormat": "firewall",
+                    "refId": "C"
+                },
+                {
+                    "expr": "sum(deep_security_modules_total{job=\"deep-security\",metric=\"ip_status\",status=\"on\",platform=~\"[[platform]]\",type=~\"[[type]]\"})",
+                    "legendFormat": "ips",
+                    "refId": "D"
+                },
+                {
+                    "expr": "sum(deep_security_modules_total{job=\"deep-security\",metric=\"im_status\",status=\"on\",platform=~\"[[platform]]\",type=~\"[[type]]\"})",
+                    "legendFormat": "integrity monitor",
+                    "refId": "E"
+                },
+                {
+                    "expr": "sum(deep_security_modules_total{job=\"deep-security\",metric=\"li_status\",status=\"on\",platform=~\"[[platform]]\",type=~\"[[type]]\"})",
+                    "legendFormat": "log inspection",
+                    "refId": "F"
+                }
+            ],
+            "timeFrom": null,
+            "timeShift": null,
+            "title": "Modules Usage ($type - $status agents)",
+            "type": "bargauge"
+        },
+        {
+            "datasource": "prometheus-ds",
+            "gridPos": {
+                "h": 6,
+                "w": 8,
+                "x": 16,
+                "y": 16
+            },
+            "id": 47,
+            "options": {
+                "displayMode": "gradient",
+                "fieldOptions": {
+                    "calcs": [
+                        "last"
+                    ],
+                    "defaults": {
+                        "mappings": [],
+                        "thresholds": {
+                            "mode": "absolute",
+                            "steps": [
+                                {
+                                    "color": "green",
+                                    "value": null
+                                }
+                            ]
+                        },
+                        "unit": "percent"
+                    },
+                    "overrides": [],
+                    "values": false
+                },
+                "orientation": "horizontal",
+                "showUnfilled": true
+            },
+            "pluginVersion": "6.6.2",
+            "targets": [
+                {
+                    "expr": "sum(deep_security_modules_total{job=\"deep-security\",metric=\"am_status\",status=\"on\",platform=~\"[[platform]]\",type=~\"[[type]]\"}) / on (metric) sum(deep_security_computers_total{job=\"deep-security\",metric=\"os_type\",type=~\"managed|unmanaged|warning|critical|unknown\",status=\"all\",platform=~\"[[platform]]\"}) * 100",
+                    "legendFormat": "antimalware",
+                    "refId": "A"
+                },
+                {
+                    "expr": "sum(deep_security_modules_total{job=\"deep-security\",metric=\"wr_status\",status=\"on\",platform=~\"[[platform]]\",type=~\"[[type]]\"}) / on (metric) sum(deep_security_computers_total{job=\"deep-security\",metric=\"os_type\",type=~\"managed|unmanaged|warning|critical|unknown\",status=\"all\",platform=~\"[[platform]]\"}) * 100",
+                    "legendFormat": "web reputation",
+                    "refId": "B"
+                },
+                {
+                    "expr": "sum(deep_security_modules_total{job=\"deep-security\",metric=\"fw_status\",status=\"on\",platform=~\"[[platform]]\",type=~\"[[type]]\"}) / on (metric) sum(deep_security_computers_total{job=\"deep-security\",metric=\"os_type\",type=~\"managed|unmanaged|warning|critical|unknown\",status=\"all\",platform=~\"[[platform]]\"}) * 100",
+                    "legendFormat": "firewall",
+                    "refId": "C"
+                },
+                {
+                    "expr": "sum(deep_security_modules_total{job=\"deep-security\",metric=\"ip_status\",status=\"on\",platform=~\"[[platform]]\",type=~\"[[type]]\"}) / on (metric) sum(deep_security_computers_total{job=\"deep-security\",metric=\"os_type\",type=~\"managed|unmanaged|warning|critical|unknown\",status=\"all\",platform=~\"[[platform]]\"}) * 100",
+                    "legendFormat": "ips",
+                    "refId": "D"
+                },
+                {
+                    "expr": "sum(deep_security_modules_total{job=\"deep-security\",metric=\"im_status\",status=\"on\",platform=~\"[[platform]]\",type=~\"[[type]]\"}) / on (metric) sum(deep_security_computers_total{job=\"deep-security\",metric=\"os_type\",type=~\"managed|unmanaged|warning|critical|unknown\",status=\"all\",platform=~\"[[platform]]\"}) * 100",
+                    "legendFormat": "integrity monitor",
+                    "refId": "E"
+                },
+                {
+                    "expr": "sum(deep_security_modules_total{job=\"deep-security\",metric=\"li_status\",status=\"on\",platform=~\"[[platform]]\",type=~\"[[type]]\"}) / on (metric) sum(deep_security_computers_total{job=\"deep-security\",metric=\"os_type\",type=~\"managed|unmanaged|warning|critical|unknown\",status=\"all\",platform=~\"[[platform]]\"}) * 100",
+                    "legendFormat": "log inspection",
+                    "refId": "F"
+                }
+            ],
+            "timeFrom": null,
+            "timeShift": null,
+            "title": "Modules Usage ($type - $status agents)",
+            "type": "bargauge"
+        },
+        {
+            "collapsed": false,
+            "datasource": null,
+            "gridPos": {
+                "h": 1,
+                "w": 24,
+                "x": 0,
+                "y": 22
+            },
+            "id": 50,
+            "panels": [],
+            "title": "Agent",
+            "type": "row"
+        },
+        {
+            "columns": [
+                {
+                    "text": "Current",
+                    "value": "current"
+                }
+            ],
+            "datasource": "prometheus-ds",
+            "fontSize": "100%",
+            "gridPos": {
+                "h": 7,
+                "w": 4,
+                "x": 0,
+                "y": 23
+            },
+            "id": 52,
+            "options": {},
+            "pageSize": null,
+            "showHeader": true,
+            "sort": {
+                "col": 0,
+                "desc": true
+            },
+            "styles": [
+                {
+                    "alias": "Time",
+                    "align": "auto",
+                    "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                    "pattern": "Time",
+                    "type": "hidden"
+                },
+                {
+                    "alias": "Agents",
+                    "align": "auto",
+                    "colorMode": null,
+                    "colors": [
+                        "rgba(245, 54, 54, 0.9)",
+                        "rgba(237, 129, 40, 0.89)",
+                        "rgba(50, 172, 45, 0.97)"
+                    ],
+                    "dateFormat": "YYYY-MM-DD HH:mm:ss",
+                    "decimals": 2,
+                    "mappingType": 1,
+                    "pattern": "Current",
+                    "thresholds": [],
+                    "type": "number",
+                    "unit": "short"
+                }
+            ],
+            "targets": [
+                {
+                    "expr": "deep_security_computers_total{metric=\"agent_version\",type=\"[[type]]\",platform=\"all\"}",
+                    "legendFormat": "{{ status }}",
+                    "refId": "A"
+                }
+            ],
+            "timeFrom": null,
+            "timeShift": null,
+            "title": "Agent Version ($type)",
+            "transform": "timeseries_aggregations",
+            "type": "table"
+        },
+        {
+            "collapsed": true,
+            "datasource": null,
+            "gridPos": {
+                "h": 1,
+                "w": 24,
+                "x": 0,
+                "y": 30
+            },
+            "id": 26,
+            "panels": [
+                {
+                    "cacheTimeout": null,
+                    "datasource": "prometheus-ds",
+                    "gridPos": {
+                        "h": 7,
+                        "w": 8,
+                        "x": 0,
+                        "y": 23
+                    },
+                    "id": 15,
+                    "links": [],
+                    "options": {
+                        "displayMode": "gradient",
+                        "fieldOptions": {
+                            "calcs": [
+                                "last"
+                            ],
+                            "defaults": {
+                                "mappings": [],
+                                "thresholds": {
+                                    "mode": "absolute",
+                                    "steps": [
+                                        {
+                                            "color": "green",
+                                            "value": null
+                                        }
+                                    ]
+                                }
+                            },
+                            "overrides": [],
+                            "values": false
+                        },
+                        "orientation": "horizontal",
+                        "showUnfilled": true
+                    },
+                    "pluginVersion": "6.6.2",
+                    "targets": [
+                        {
+                            "expr": "deep_security_vulnerabilities_total{type=~\"[[type]]\",platform=\"all\",mode=\"all\",status!=\"all\"}",
+                            "legendFormat": "{{ status }}",
+                            "refId": "A"
+                        }
+                    ],
+                    "timeFrom": null,
+                    "timeShift": null,
+                    "title": "Vulnerabilities All Platforms ($type agents)",
+                    "type": "bargauge"
+                },
+                {
+                    "cacheTimeout": null,
+                    "datasource": "prometheus-ds",
+                    "gridPos": {
+                        "h": 7,
+                        "w": 8,
+                        "x": 8,
+                        "y": 23
+                    },
+                    "id": 35,
+                    "links": [],
+                    "options": {
+                        "displayMode": "gradient",
+                        "fieldOptions": {
+                            "calcs": [
+                                "last"
+                            ],
+                            "defaults": {
+                                "mappings": [],
+                                "thresholds": {
+                                    "mode": "absolute",
+                                    "steps": [
+                                        {
+                                            "color": "green",
+                                            "value": null
+                                        }
+                                    ]
+                                }
+                            },
+                            "overrides": [],
+                            "values": false
+                        },
+                        "orientation": "horizontal",
+                        "showUnfilled": true
+                    },
+                    "pluginVersion": "6.6.2",
+                    "targets": [
+                        {
+                            "expr": "deep_security_vulnerabilities_total{type=~\"[[type]]\",platform=~\"[[platform]]\",mode=\"all\",status!=\"all\"}",
+                            "legendFormat": "{{ status }} {{ platform }} ",
+                            "refId": "A"
+                        }
+                    ],
+                    "timeFrom": null,
+                    "timeShift": null,
+                    "title": "Vulnerabilities ($status agents)",
+                    "type": "bargauge"
+                },
+                {
+                    "aliasColors": {},
+                    "bars": false,
+                    "dashLength": 10,
+                    "dashes": false,
+                    "datasource": "prometheus-ds",
+                    "fill": 1,
+                    "fillGradient": 0,
+                    "gridPos": {
+                        "h": 10,
+                        "w": 24,
+                        "x": 0,
+                        "y": 30
+                    },
+                    "hiddenSeries": false,
+                    "id": 20,
+                    "legend": {
+                        "alignAsTable": true,
+                        "avg": false,
+                        "current": true,
+                        "hideZero": true,
+                        "max": false,
+                        "min": false,
+                        "rightSide": true,
+                        "show": true,
+                        "sort": "current",
+                        "sortDesc": true,
+                        "total": false,
+                        "values": true
+                    },
+                    "lines": true,
+                    "linewidth": 1,
+                    "nullPointMode": "null",
+                    "options": {
+                        "dataLinks": []
+                    },
+                    "percentage": false,
+                    "pointradius": 2,
+                    "points": false,
+                    "renderer": "flot",
+                    "seriesOverrides": [],
+                    "spaceLength": 10,
+                    "stack": false,
+                    "steppedLine": false,
+                    "targets": [
+                        {
+                            "expr": "deep_security_total{job=\"deep-security\",metric=\"vulnerabilities\",status=~\"[[status]]\",mode=\"all\",platform=~\"[[platform]]\",type=~\"[[vul_type]]\"}",
+                            "legendFormat": "{{ metric }} {{ type }} {{ platform }}",
+                            "refId": "A"
+                        }
+                    ],
+                    "thresholds": [],
+                    "timeFrom": null,
+                    "timeRegions": [],
+                    "timeShift": null,
+                    "title": "Vulnerabilities",
+                    "tooltip": {
+                        "shared": true,
+                        "sort": 1,
+                        "value_type": "individual"
+                    },
+                    "type": "graph",
+                    "xaxis": {
+                        "buckets": null,
+                        "mode": "time",
+                        "name": null,
+                        "show": true,
+                        "values": []
+                    },
+                    "yaxes": [
+                        {
+                            "format": "short",
+                            "label": null,
+                            "logBase": 1,
+                            "max": null,
+                            "min": null,
+                            "show": true
+                        },
+                        {
+                            "format": "short",
+                            "label": null,
+                            "logBase": 1,
+                            "max": null,
+                            "min": null,
+                            "show": true
+                        }
+                    ],
+                    "yaxis": {
+                        "align": false,
+                        "alignLevel": null
+                    }
+                }
+            ],
+            "title": "Vulnerabilities Details",
+            "type": "row"
+        }
+    ],
+    "schemaVersion": 22,
+    "style": "dark",
+    "tags": [],
+    "templating": {
+        "list": [
+            {
+                "allValue": null,
+                "current": {
+                    "text": "all",
+                    "value": [
+                        "all"
+                    ]
+                },
+                "datasource": "prometheus-ds",
+                "definition": "label_values(deep_security_computers_total, platform)",
+                "hide": 0,
+                "includeAll": false,
+                "label": "platform",
+                "multi": true,
+                "name": "platform",
+                "options": [],
+                "query": "label_values(deep_security_computers_total, platform)",
+                "refresh": 1,
+                "regex": "",
+                "skipUrlSync": false,
+                "sort": 0,
+                "tagValuesQuery": "",
+                "tags": [],
+                "tagsQuery": "",
+                "type": "query",
+                "useTags": false
+            },
+            {
+                "allValue": null,
+                "current": {
+                    "text": "on",
+                    "value": "on"
+                },
+                "datasource": "prometheus-ds",
+                "definition": "label_values(deep_security_modules_total, status)",
+                "hide": 2,
+                "includeAll": false,
+                "label": "status",
+                "multi": false,
+                "name": "status",
+                "options": [],
+                "query": "label_values(deep_security_modules_total, status)",
+                "refresh": 1,
+                "regex": "",
+                "skipUrlSync": false,
+                "sort": 0,
+                "tagValuesQuery": "",
+                "tags": [],
+                "tagsQuery": "",
+                "type": "query",
+                "useTags": false
+            },
+            {
+                "allValue": null,
+                "current": {
+                    "text": "managed",
+                    "value": "managed"
+                },
+                "datasource": "prometheus-ds",
+                "definition": "label_values(deep_security_computers_total, type)",
+                "hide": 0,
+                "includeAll": false,
+                "label": "type",
+                "multi": false,
+                "name": "type",
+                "options": [],
+                "query": "label_values(deep_security_computers_total, type)",
+                "refresh": 1,
+                "regex": "/^(managed|unmanaged|critical|warning|unknown)$/",
+                "skipUrlSync": false,
+                "sort": 0,
+                "tagValuesQuery": "",
+                "tags": [],
+                "tagsQuery": "",
+                "type": "query",
+                "useTags": false
+            },
+            {
+                "allValue": null,
+                "current": {
+                    "text": "all",
+                    "value": [
+                        "all"
+                    ]
+                },
+                "datasource": "prometheus-ds",
+                "definition": "label_values(deep_security_vulnerabilities_total, status)",
+                "hide": 0,
+                "includeAll": false,
+                "label": "vulnerabilities",
+                "multi": true,
+                "name": "vul_type",
+                "options": [],
+                "query": "label_values(deep_security_vulnerabilities_total, status)",
+                "refresh": 1,
+                "regex": "/^(all|prevent|detect|discovered|not_configured)$/",
+                "skipUrlSync": false,
+                "sort": 0,
+                "tagValuesQuery": "",
+                "tags": [],
+                "tagsQuery": "",
+                "type": "query",
+                "useTags": false
+            }
+        ]
+    },
+    "time": {
+        "from": "now-5m",
+        "to": "now"
+    },
+    "timepicker": {
+        "refresh_intervals": [
+            "5s",
+            "10s",
+            "30s",
+            "1m",
+            "5m",
+            "15m",
+            "30m",
+            "1h",
+            "2h",
+            "1d"
+        ]
+    },
+    "timezone": "",
+    "title": "deep security",
+    "uid": "ZB4i5AuZz",
+    "version": 58
+}
