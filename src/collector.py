@@ -13,7 +13,7 @@ from datetime import datetime
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=config.LOG_LEVEL)
 
-server_port = env.str('SERVER_PORT', default=config.SERVER_PORT)
+server_port = int(env.str('SERVER_PORT', default=config.SERVER_PORT))
 # max valid period of api retrieved data - in seconds
 ds_api_check = env.str('DS_API_INTERVAL', default=config.DS_API_CHECK)
 sleep = 15

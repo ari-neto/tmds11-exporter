@@ -291,11 +291,26 @@ def ds_summary():
             ips_rules = 0
             li_rules = 0
             im_rules = 0
-            computer = mgr.computers[computer_id]
-            fw_rules = get_rules(computer.overall_firewall_status)
-            ips_rules = get_rules(computer.overall_intrusion_prevention_status)
-            im_rules = get_rules(computer.overall_integrity_monitoring_status)
-            li_rules = get_rules(computer.overall_log_inspection_status)
+            try:
+                computer = mgr.computers[computer_id]
+            except Exception:
+                raise Exception('failed to get computer')
+            try:
+                fw_rules = get_rules(computer.overall_firewall_status)
+            except Exception:
+                raise Exception('failed to get firewall rules')
+            try:
+                ips_rules = get_rules(computer.overall_intrusion_prevention_status)
+            except Exception:
+                raise Exception('failed to get ips rules')
+            try:
+                im_rules = get_rules(computer.overall_integrity_monitoring_status)
+            except Exception:
+                raise Exception('failed to get im rules')
+            try:
+                li_rules = get_rules(computer.overall_log_inspection_status)
+            except Exception:
+                raise Exception('failed to get li rules')
 
             # convert
      
@@ -350,346 +365,360 @@ def ds_summary():
             ips_rules_total += ips_rules
             if re.match('^managed.*online.*', agent_status):
                 # active
-                active_total += 1
-                ips_rules_active_total += ips_rules
+                try:
+                    active_total += 1
+                    ips_rules_active_total += ips_rules
 
-                add_key(key='computer-platform-all-{}'.format(platform), var=active)
-                add_key(key='computer-platform-{}-{}'.format(os_type,
-                                                             platform), var=active)
+                    add_key(key='computer-platform-all-{}'.format(platform), var=active)
+                    add_key(key='computer-platform-{}-{}'.format(os_type,
+                                                                platform), var=active)
 
-                add_key(key='computer-os_type-all-all', var=active)
-                add_key(key='computer-os_type-{}-all'.format(os_type), var=active)
-                add_key(key='computer-os_type-{}-{}'.format(os_type,
-                                                            platform), var=active)
+                    add_key(key='computer-os_type-all-all', var=active)
+                    add_key(key='computer-os_type-{}-all'.format(os_type), var=active)
+                    add_key(key='computer-os_type-{}-{}'.format(os_type,
+                                                                platform), var=active)
 
-                add_key(
-                    key='computer-agent_version-all-{}'.format(agent_version), var=active)
-                add_key(
-                    key='computer-agent_version-{}-{}'.format(os_type, agent_version), var=active)
-                add_key(
-                    key='computer-agent_version_major-all-{}'.format(agent_version_major), var=active)
-                add_key(key='computer-agent_version_major-{}-{}'.format(os_type,
-                                                                        agent_version_major), var=active)
+                    add_key(
+                        key='computer-agent_version-all-{}'.format(agent_version), var=active)
+                    add_key(
+                        key='computer-agent_version-{}-{}'.format(os_type, agent_version), var=active)
+                    add_key(
+                        key='computer-agent_version_major-all-{}'.format(agent_version_major), var=active)
+                    add_key(key='computer-agent_version_major-{}-{}'.format(os_type,
+                                                                            agent_version_major), var=active)
 
-                add_key(key=get_status(
-                    am_status, 'module-am_status-all'), var=active)
-                add_key(key=get_status(
-                    wr_status, 'module-wr_status-all'), var=active)
-                add_key(key=get_status(
-                    fw_status, 'module-fw_status-all'), var=active)
-                add_key(key=get_status(
-                    ip_status, 'module-ip_status-all'), var=active)
-                add_key(key=get_status(
-                    im_status, 'module-im_status-all'), var=active)
-                add_key(key=get_status(
-                    li_status, 'module-li_status-all'), var=active)
+                    add_key(key=get_status(
+                        am_status, 'module-am_status-all'), var=active)
+                    add_key(key=get_status(
+                        wr_status, 'module-wr_status-all'), var=active)
+                    add_key(key=get_status(
+                        fw_status, 'module-fw_status-all'), var=active)
+                    add_key(key=get_status(
+                        ip_status, 'module-ip_status-all'), var=active)
+                    add_key(key=get_status(
+                        im_status, 'module-im_status-all'), var=active)
+                    add_key(key=get_status(
+                        li_status, 'module-li_status-all'), var=active)
 
-                add_key(key=get_status(
-                    am_status, 'module-am_status-{}'.format(os_type)), var=active)
-                add_key(key=get_status(
-                    wr_status, 'module-wr_status-{}'.format(os_type)), var=active)
-                add_key(key=get_status(
-                    fw_status, 'module-fw_status-{}'.format(os_type)), var=active)
-                add_key(key=get_status(
-                    ip_status, 'module-ip_status-{}'.format(os_type)), var=active)
-                add_key(key=get_status(
-                    im_status, 'module-im_status-{}'.format(os_type)), var=active)
-                add_key(key=get_status(
-                    li_status, 'module-li_status-{}'.format(os_type)), var=active)
+                    add_key(key=get_status(
+                        am_status, 'module-am_status-{}'.format(os_type)), var=active)
+                    add_key(key=get_status(
+                        wr_status, 'module-wr_status-{}'.format(os_type)), var=active)
+                    add_key(key=get_status(
+                        fw_status, 'module-fw_status-{}'.format(os_type)), var=active)
+                    add_key(key=get_status(
+                        ip_status, 'module-ip_status-{}'.format(os_type)), var=active)
+                    add_key(key=get_status(
+                        im_status, 'module-im_status-{}'.format(os_type)), var=active)
+                    add_key(key=get_status(
+                        li_status, 'module-li_status-{}'.format(os_type)), var=active)
 
-                add_key(key='vulnerabilities-ips_rules-all-all-all',
-                        var=active, value=ips_rules)
-                add_key(key='vulnerabilities-ips_rules-{}-all-all'.format(
-                    os_type), var=active, value=ips_rules)
-                add_key(key='vulnerabilities-ips_rules-all-{}-all'.format(
-                    ips_status), var=active, value=ips_rules)
-                add_key(key='vulnerabilities-ips_rules-all-all-{}'.format(
-                    ips_mode), var=active, value=ips_rules)
+                    add_key(key='vulnerabilities-ips_rules-all-all-all',
+                            var=active, value=ips_rules)
+                    add_key(key='vulnerabilities-ips_rules-{}-all-all'.format(
+                        os_type), var=active, value=ips_rules)
+                    add_key(key='vulnerabilities-ips_rules-all-{}-all'.format(
+                        ips_status), var=active, value=ips_rules)
+                    add_key(key='vulnerabilities-ips_rules-all-all-{}'.format(
+                        ips_mode), var=active, value=ips_rules)
 
-                add_key(key='vulnerabilities-ips_rules-{}-{}-all'.format(
-                    os_type, ips_status), var=active, value=ips_rules)
-                add_key(key='vulnerabilities-ips_rules-{}-{}-{}'.format(
-                    os_type, ips_status, ips_mode), var=active, value=ips_rules)
+                    add_key(key='vulnerabilities-ips_rules-{}-{}-all'.format(
+                        os_type, ips_status), var=active, value=ips_rules)
+                    add_key(key='vulnerabilities-ips_rules-{}-{}-{}'.format(
+                        os_type, ips_status, ips_mode), var=active, value=ips_rules)
 
-                add_key(key='vulnerabilities-ips_rules-all-{}-{}'.format(
-                    ips_status, ips_mode), var=active, value=ips_rules)
-                add_key(key='vulnerabilities-ips_rules-{}-all-{}'.format(
-                    os_type, ips_mode), var=active, value=ips_rules)
+                    add_key(key='vulnerabilities-ips_rules-all-{}-{}'.format(
+                        ips_status, ips_mode), var=active, value=ips_rules)
+                    add_key(key='vulnerabilities-ips_rules-{}-all-{}'.format(
+                        os_type, ips_mode), var=active, value=ips_rules)
+                except Exception as e:
+                    logging.info('ds_summary active - error: {}'.format(e))
 
             elif re.match('.*warning.*', agent_status):
                 # warning
-                ips_rules_warning_total += ips_rules
+                try:
+                    ips_rules_warning_total += ips_rules
 
-                add_key(key=get_status(
-                    agent_version, 'computer-platform-all-{}'.format(platform)), var=warning)
-                add_key(key=get_status(
-                    agent_version, 'computer-platform-{}-{}'.format(os_type, platform)), var=warning)
+                    add_key(key=get_status(
+                        agent_version, 'computer-platform-all-{}'.format(platform)), var=warning)
+                    add_key(key=get_status(
+                        agent_version, 'computer-platform-{}-{}'.format(os_type, platform)), var=warning)
 
-                add_key(key='computer-os_type-all-all', var=warning)
-                add_key(key='computer-os_type-{}-all'.format(os_type), var=warning)
-                add_key(key='computer-os_type-{}-{}'.format(os_type,
-                                                            platform), var=warning)
+                    add_key(key='computer-os_type-all-all', var=warning)
+                    add_key(key='computer-os_type-{}-all'.format(os_type), var=warning)
+                    add_key(key='computer-os_type-{}-{}'.format(os_type,
+                                                                platform), var=warning)
 
-                add_key(
-                    key='computer-agent_version-all-{}'.format(agent_version), var=warning)
-                add_key(key='computer-agent_version-{}-{}'.format(os_type,
-                                                                  agent_version), var=warning)
-                add_key(
-                    key='computer-agent_version_major-all-{}'.format(agent_version_major), var=warning)
-                add_key(key='computer-agent_version_major-{}-{}'.format(os_type,
-                                                                        agent_version_major), var=warning)
+                    add_key(
+                        key='computer-agent_version-all-{}'.format(agent_version), var=warning)
+                    add_key(key='computer-agent_version-{}-{}'.format(os_type,
+                                                                    agent_version), var=warning)
+                    add_key(
+                        key='computer-agent_version_major-all-{}'.format(agent_version_major), var=warning)
+                    add_key(key='computer-agent_version_major-{}-{}'.format(os_type,
+                                                                            agent_version_major), var=warning)
 
-                add_key(key=get_status(
-                    am_status, 'module-am_status-all'), var=warning)
-                add_key(key=get_status(
-                    wr_status, 'module-wr_status-all'), var=warning)
-                add_key(key=get_status(
-                    fw_status, 'module-fw_status-all'), var=warning)
-                add_key(key=get_status(
-                    ip_status, 'module-ip_status-all'), var=warning)
-                add_key(key=get_status(
-                    im_status, 'module-im_status-all'), var=warning)
-                add_key(key=get_status(
-                    li_status, 'module-li_status-all'), var=warning)
+                    add_key(key=get_status(
+                        am_status, 'module-am_status-all'), var=warning)
+                    add_key(key=get_status(
+                        wr_status, 'module-wr_status-all'), var=warning)
+                    add_key(key=get_status(
+                        fw_status, 'module-fw_status-all'), var=warning)
+                    add_key(key=get_status(
+                        ip_status, 'module-ip_status-all'), var=warning)
+                    add_key(key=get_status(
+                        im_status, 'module-im_status-all'), var=warning)
+                    add_key(key=get_status(
+                        li_status, 'module-li_status-all'), var=warning)
 
-                add_key(key=get_status(
-                    am_status, 'module-am_status-{}'.format(os_type)), var=warning)
-                add_key(key=get_status(
-                    wr_status, 'module-wr_status-{}'.format(os_type)), var=warning)
-                add_key(key=get_status(
-                    fw_status, 'module-fw_status-{}'.format(os_type)), var=warning)
-                add_key(key=get_status(
-                    ip_status, 'module-ip_status-{}'.format(os_type)), var=warning)
-                add_key(key=get_status(
-                    im_status, 'module-im_status-{}'.format(os_type)), var=warning)
-                add_key(key=get_status(
-                    li_status, 'module-li_status-{}'.format(os_type)), var=warning)
+                    add_key(key=get_status(
+                        am_status, 'module-am_status-{}'.format(os_type)), var=warning)
+                    add_key(key=get_status(
+                        wr_status, 'module-wr_status-{}'.format(os_type)), var=warning)
+                    add_key(key=get_status(
+                        fw_status, 'module-fw_status-{}'.format(os_type)), var=warning)
+                    add_key(key=get_status(
+                        ip_status, 'module-ip_status-{}'.format(os_type)), var=warning)
+                    add_key(key=get_status(
+                        im_status, 'module-im_status-{}'.format(os_type)), var=warning)
+                    add_key(key=get_status(
+                        li_status, 'module-li_status-{}'.format(os_type)), var=warning)
 
-                add_key(key='vulnerabilities-ips_rules-all-all-all',
-                        var=warning, value=ips_rules)
-                add_key(key='vulnerabilities-ips_rules-{}-all-all'.format(
-                    os_type), var=warning, value=ips_rules)
-                add_key(key='vulnerabilities-ips_rules-all-{}-all'.format(
-                    ips_status), var=warning, value=ips_rules)
-                add_key(key='vulnerabilities-ips_rules-all-all-{}'.format(
-                    ips_mode), var=warning, value=ips_rules)
+                    add_key(key='vulnerabilities-ips_rules-all-all-all',
+                            var=warning, value=ips_rules)
+                    add_key(key='vulnerabilities-ips_rules-{}-all-all'.format(
+                        os_type), var=warning, value=ips_rules)
+                    add_key(key='vulnerabilities-ips_rules-all-{}-all'.format(
+                        ips_status), var=warning, value=ips_rules)
+                    add_key(key='vulnerabilities-ips_rules-all-all-{}'.format(
+                        ips_mode), var=warning, value=ips_rules)
 
-                add_key(key='vulnerabilities-ips_rules-{}-{}-all'.format(
-                    os_type, ips_status), var=warning, value=ips_rules)
-                add_key(key='vulnerabilities-ips_rules-{}-{}-{}'.format(
-                    os_type, ips_status, ips_mode), var=warning, value=ips_rules)
+                    add_key(key='vulnerabilities-ips_rules-{}-{}-all'.format(
+                        os_type, ips_status), var=warning, value=ips_rules)
+                    add_key(key='vulnerabilities-ips_rules-{}-{}-{}'.format(
+                        os_type, ips_status, ips_mode), var=warning, value=ips_rules)
 
-                add_key(key='vulnerabilities-ips_rules-all-{}-{}'.format(
-                    ips_status, ips_mode), var=warning, value=ips_rules)
-                add_key(key='vulnerabilities-ips_rules-{}-all-{}'.format(
-                    os_type, ips_mode), var=warning, value=ips_rules)
+                    add_key(key='vulnerabilities-ips_rules-all-{}-{}'.format(
+                        ips_status, ips_mode), var=warning, value=ips_rules)
+                    add_key(key='vulnerabilities-ips_rules-{}-all-{}'.format(
+                        os_type, ips_mode), var=warning, value=ips_rules)
+                except Exception as e:
+                    logging.info('ds_summary active - warning: {}'.format(e))
             elif re.match('^unmanaged.*', agent_status):
                 # inactive | unmanaged
-                ips_rules_inactive_total += ips_rules
+                try:
+                    ips_rules_inactive_total += ips_rules
 
-                add_key(key=get_status(
-                    agent_version, 'computer-platform-all-{}'.format(platform)), var=inactive)
-                add_key(key=get_status(
-                    agent_version, 'computer-platform-{}-{}'.format(os_type, platform)), var=inactive)
+                    add_key(key=get_status(
+                        agent_version, 'computer-platform-all-{}'.format(platform)), var=inactive)
+                    add_key(key=get_status(
+                        agent_version, 'computer-platform-{}-{}'.format(os_type, platform)), var=inactive)
 
-                add_key(key='computer-os_type-all-all', var=inactive)
-                add_key(key='computer-os_type-{}-all'.format(os_type), var=inactive)
-                add_key(key='computer-os_type-{}-{}'.format(os_type,
-                                                            platform), var=inactive)
+                    add_key(key='computer-os_type-all-all', var=inactive)
+                    add_key(key='computer-os_type-{}-all'.format(os_type), var=inactive)
+                    add_key(key='computer-os_type-{}-{}'.format(os_type,
+                                                                platform), var=inactive)
 
-                add_key(
-                    key='computer-agent_version-all-{}'.format(agent_version), var=inactive)
-                add_key(key='computer-agent_version-{}-{}'.format(os_type,
-                                                                  agent_version), var=inactive)
-                add_key(
-                    key='computer-agent_version_major-all-{}'.format(agent_version_major), var=inactive)
-                add_key(key='computer-agent_version_major-{}-{}'.format(os_type,
-                                                                        agent_version_major), var=inactive)
+                    add_key(
+                        key='computer-agent_version-all-{}'.format(agent_version), var=inactive)
+                    add_key(key='computer-agent_version-{}-{}'.format(os_type,
+                                                                    agent_version), var=inactive)
+                    add_key(
+                        key='computer-agent_version_major-all-{}'.format(agent_version_major), var=inactive)
+                    add_key(key='computer-agent_version_major-{}-{}'.format(os_type,
+                                                                            agent_version_major), var=inactive)
 
-                add_key(key=get_status(
-                    am_status, 'module-am_status-all'), var=inactive)
-                add_key(key=get_status(
-                    wr_status, 'module-wr_status-all'), var=inactive)
-                add_key(key=get_status(
-                    fw_status, 'module-fw_status-all'), var=inactive)
-                add_key(key=get_status(
-                    ip_status, 'module-ip_status-all'), var=inactive)
-                add_key(key=get_status(
-                    im_status, 'module-im_status-all'), var=inactive)
-                add_key(key=get_status(
-                    li_status, 'module-li_status-all'), var=inactive)
+                    add_key(key=get_status(
+                        am_status, 'module-am_status-all'), var=inactive)
+                    add_key(key=get_status(
+                        wr_status, 'module-wr_status-all'), var=inactive)
+                    add_key(key=get_status(
+                        fw_status, 'module-fw_status-all'), var=inactive)
+                    add_key(key=get_status(
+                        ip_status, 'module-ip_status-all'), var=inactive)
+                    add_key(key=get_status(
+                        im_status, 'module-im_status-all'), var=inactive)
+                    add_key(key=get_status(
+                        li_status, 'module-li_status-all'), var=inactive)
 
-                add_key(key=get_status(
-                    am_status, 'module-am_status-{}'.format(os_type)), var=inactive)
-                add_key(key=get_status(
-                    wr_status, 'module-wr_status-{}'.format(os_type)), var=inactive)
-                add_key(key=get_status(
-                    fw_status, 'module-fw_status-{}'.format(os_type)), var=inactive)
-                add_key(key=get_status(
-                    ip_status, 'module-ip_status-{}'.format(os_type)), var=inactive)
-                add_key(key=get_status(
-                    im_status, 'module-im_status-{}'.format(os_type)), var=inactive)
-                add_key(key=get_status(
-                    li_status, 'module-li_status-{}'.format(os_type)), var=inactive)
+                    add_key(key=get_status(
+                        am_status, 'module-am_status-{}'.format(os_type)), var=inactive)
+                    add_key(key=get_status(
+                        wr_status, 'module-wr_status-{}'.format(os_type)), var=inactive)
+                    add_key(key=get_status(
+                        fw_status, 'module-fw_status-{}'.format(os_type)), var=inactive)
+                    add_key(key=get_status(
+                        ip_status, 'module-ip_status-{}'.format(os_type)), var=inactive)
+                    add_key(key=get_status(
+                        im_status, 'module-im_status-{}'.format(os_type)), var=inactive)
+                    add_key(key=get_status(
+                        li_status, 'module-li_status-{}'.format(os_type)), var=inactive)
 
-                # vulnerabilities-ips_rules-os_windows-prevent-inline - value: 2
+                    # vulnerabilities-ips_rules-os_windows-prevent-inline - value: 2
 
-                add_key(key='vulnerabilities-ips_rules-all-all-all',
-                        var=inactive, value=ips_rules)
-                add_key(key='vulnerabilities-ips_rules-{}-all-all'.format(
-                    os_type), var=inactive, value=ips_rules)
-                add_key(key='vulnerabilities-ips_rules-all-{}-all'.format(
-                    ips_status), var=inactive, value=ips_rules)
-                add_key(key='vulnerabilities-ips_rules-all-all-{}'.format(
-                    ips_mode), var=inactive, value=ips_rules)
+                    add_key(key='vulnerabilities-ips_rules-all-all-all',
+                            var=inactive, value=ips_rules)
+                    add_key(key='vulnerabilities-ips_rules-{}-all-all'.format(
+                        os_type), var=inactive, value=ips_rules)
+                    add_key(key='vulnerabilities-ips_rules-all-{}-all'.format(
+                        ips_status), var=inactive, value=ips_rules)
+                    add_key(key='vulnerabilities-ips_rules-all-all-{}'.format(
+                        ips_mode), var=inactive, value=ips_rules)
 
-                add_key(key='vulnerabilities-ips_rules-{}-{}-all'.format(
-                    os_type, ips_status), var=inactive, value=ips_rules)
-                add_key(key='vulnerabilities-ips_rules-{}-{}-{}'.format(
-                    os_type, ips_status, ips_mode), var=inactive, value=ips_rules)
+                    add_key(key='vulnerabilities-ips_rules-{}-{}-all'.format(
+                        os_type, ips_status), var=inactive, value=ips_rules)
+                    add_key(key='vulnerabilities-ips_rules-{}-{}-{}'.format(
+                        os_type, ips_status, ips_mode), var=inactive, value=ips_rules)
 
-                add_key(key='vulnerabilities-ips_rules-all-{}-{}'.format(
-                    ips_status, ips_mode), var=inactive, value=ips_rules)
-                add_key(key='vulnerabilities-ips_rules-{}-all-{}'.format(
-                    os_type, ips_mode), var=inactive, value=ips_rules)
+                    add_key(key='vulnerabilities-ips_rules-all-{}-{}'.format(
+                        ips_status, ips_mode), var=inactive, value=ips_rules)
+                    add_key(key='vulnerabilities-ips_rules-{}-all-{}'.format(
+                        os_type, ips_mode), var=inactive, value=ips_rules)
+                except Exception as e:
+                    logging.info('ds_summary inactive|unmanaged - error: {}'.format(e))
 
             elif re.match('^managed.*offline.*', agent_status):
                 # offline | critical
-                ips_rules_error_total += ips_rules
+                try:
+                    ips_rules_error_total += ips_rules
 
-                add_key(key=get_status(agent_version,
-                                       'computer-platform-all-{}'.format(platform)), var=error)
-                add_key(key=get_status(
-                    agent_version, 'computer-platform-{}-{}'.format(os_type, platform)), var=error)
+                    add_key(key=get_status(agent_version,
+                                        'computer-platform-all-{}'.format(platform)), var=error)
+                    add_key(key=get_status(
+                        agent_version, 'computer-platform-{}-{}'.format(os_type, platform)), var=error)
 
-                add_key(key='computer-os_type-all-all', var=error)
-                add_key(key='computer-os_type-{}-all'.format(os_type), var=error)
-                add_key(
-                    key='computer-os_type-{}-{}'.format(os_type, platform), var=error)
+                    add_key(key='computer-os_type-all-all', var=error)
+                    add_key(key='computer-os_type-{}-all'.format(os_type), var=error)
+                    add_key(
+                        key='computer-os_type-{}-{}'.format(os_type, platform), var=error)
 
-                add_key(
-                    key='computer-agent_version-all-{}'.format(agent_version), var=error)
-                add_key(
-                    key='computer-agent_version-{}-{}'.format(os_type, agent_version), var=error)
-                add_key(
-                    key='computer-agent_version_major-all-{}'.format(agent_version_major), var=error)
-                add_key(key='computer-agent_version_major-{}-{}'.format(os_type,
-                                                                        agent_version_major), var=error)
+                    add_key(
+                        key='computer-agent_version-all-{}'.format(agent_version), var=error)
+                    add_key(
+                        key='computer-agent_version-{}-{}'.format(os_type, agent_version), var=error)
+                    add_key(
+                        key='computer-agent_version_major-all-{}'.format(agent_version_major), var=error)
+                    add_key(key='computer-agent_version_major-{}-{}'.format(os_type,
+                                                                            agent_version_major), var=error)
 
-                add_key(key=get_status(
-                    am_status, 'module-am_status-all'), var=error)
-                add_key(key=get_status(
-                    wr_status, 'module-wr_status-all'), var=error)
-                add_key(key=get_status(
-                    fw_status, 'module-fw_status-all'), var=error)
-                add_key(key=get_status(
-                    ip_status, 'module-ip_status-all'), var=error)
-                add_key(key=get_status(
-                    im_status, 'module-im_status-all'), var=error)
-                add_key(key=get_status(
-                    li_status, 'module-li_status-all'), var=error)
+                    add_key(key=get_status(
+                        am_status, 'module-am_status-all'), var=error)
+                    add_key(key=get_status(
+                        wr_status, 'module-wr_status-all'), var=error)
+                    add_key(key=get_status(
+                        fw_status, 'module-fw_status-all'), var=error)
+                    add_key(key=get_status(
+                        ip_status, 'module-ip_status-all'), var=error)
+                    add_key(key=get_status(
+                        im_status, 'module-im_status-all'), var=error)
+                    add_key(key=get_status(
+                        li_status, 'module-li_status-all'), var=error)
 
-                add_key(key=get_status(
-                    am_status, 'module-am_status-{}'.format(os_type)), var=error)
-                add_key(key=get_status(
-                    wr_status, 'module-wr_status-{}'.format(os_type)), var=error)
-                add_key(key=get_status(
-                    fw_status, 'module-fw_status-{}'.format(os_type)), var=error)
-                add_key(key=get_status(
-                    ip_status, 'module-ip_status-{}'.format(os_type)), var=error)
-                add_key(key=get_status(
-                    im_status, 'module-im_status-{}'.format(os_type)), var=error)
-                add_key(key=get_status(
-                    li_status, 'module-li_status-{}'.format(os_type)), var=error)
+                    add_key(key=get_status(
+                        am_status, 'module-am_status-{}'.format(os_type)), var=error)
+                    add_key(key=get_status(
+                        wr_status, 'module-wr_status-{}'.format(os_type)), var=error)
+                    add_key(key=get_status(
+                        fw_status, 'module-fw_status-{}'.format(os_type)), var=error)
+                    add_key(key=get_status(
+                        ip_status, 'module-ip_status-{}'.format(os_type)), var=error)
+                    add_key(key=get_status(
+                        im_status, 'module-im_status-{}'.format(os_type)), var=error)
+                    add_key(key=get_status(
+                        li_status, 'module-li_status-{}'.format(os_type)), var=error)
 
-                add_key(key='vulnerabilities-ips_rules-all-all-all',
-                        var=error, value=ips_rules)
-                add_key(key='vulnerabilities-ips_rules-{}-all-all'.format(
-                    os_type), var=error, value=ips_rules)
-                add_key(key='vulnerabilities-ips_rules-all-{}-all'.format(
-                    ips_status), var=error, value=ips_rules)
-                add_key(key='vulnerabilities-ips_rules-all-all-{}'.format(
-                    ips_mode), var=error, value=ips_rules)
+                    add_key(key='vulnerabilities-ips_rules-all-all-all',
+                            var=error, value=ips_rules)
+                    add_key(key='vulnerabilities-ips_rules-{}-all-all'.format(
+                        os_type), var=error, value=ips_rules)
+                    add_key(key='vulnerabilities-ips_rules-all-{}-all'.format(
+                        ips_status), var=error, value=ips_rules)
+                    add_key(key='vulnerabilities-ips_rules-all-all-{}'.format(
+                        ips_mode), var=error, value=ips_rules)
 
-                add_key(key='vulnerabilities-ips_rules-{}-{}-all'.format(
-                    os_type, ips_status), var=error, value=ips_rules)
-                add_key(key='vulnerabilities-ips_rules-{}-{}-{}'.format(
-                    os_type, ips_status, ips_mode), var=error, value=ips_rules)
+                    add_key(key='vulnerabilities-ips_rules-{}-{}-all'.format(
+                        os_type, ips_status), var=error, value=ips_rules)
+                    add_key(key='vulnerabilities-ips_rules-{}-{}-{}'.format(
+                        os_type, ips_status, ips_mode), var=error, value=ips_rules)
 
-                add_key(key='vulnerabilities-ips_rules-all-{}-{}'.format(
-                    ips_status, ips_mode), var=error, value=ips_rules)
-                add_key(key='vulnerabilities-ips_rules-{}-all-{}'.format(
-                    os_type, ips_mode), var=error, value=ips_rules)
+                    add_key(key='vulnerabilities-ips_rules-all-{}-{}'.format(
+                        ips_status, ips_mode), var=error, value=ips_rules)
+                    add_key(key='vulnerabilities-ips_rules-{}-all-{}'.format(
+                        os_type, ips_mode), var=error, value=ips_rules)
+                except Exception as e:
+                    logging.info('ds_summary active - critical|offline: {}'.format(e))
 
             else:
-                logging.debug(
-                    'unknown computer: {}'.format(computer.host_name))
-                ips_rules_unknown_total += ips_rules
+                try:
+                    logging.debug(
+                        'unknown computer: {}'.format(computer.host_name))
+                    ips_rules_unknown_total += ips_rules
 
-                add_key(key=get_status(
-                    agent_version, 'computer-platform-all-{}'.format(platform)), var=unknown)
-                add_key(key=get_status(
-                    agent_version, 'computer-platform-{}-{}'.format(os_type, platform)), var=unknown)
+                    add_key(key=get_status(
+                        agent_version, 'computer-platform-all-{}'.format(platform)), var=unknown)
+                    add_key(key=get_status(
+                        agent_version, 'computer-platform-{}-{}'.format(os_type, platform)), var=unknown)
 
-                add_key(key='computer-os_type-all-all', var=unknown)
-                add_key(key='computer-os_type-{}-all'.format(os_type), var=unknown)
-                add_key(key='computer-os_type-{}-{}'.format(os_type,
-                                                            platform), var=unknown)
+                    add_key(key='computer-os_type-all-all', var=unknown)
+                    add_key(key='computer-os_type-{}-all'.format(os_type), var=unknown)
+                    add_key(key='computer-os_type-{}-{}'.format(os_type,
+                                                                platform), var=unknown)
 
-                add_key(
-                    key='computer-agent_version-all-{}'.format(agent_version), var=unknown)
-                add_key(key='computer-agent_version-{}-{}'.format(os_type,
-                                                                  agent_version), var=unknown)
-                add_key(
-                    key='computer-agent_version_major-all-{}'.format(agent_version_major), var=unknown)
-                add_key(key='computer-agent_version_major-{}-{}'.format(os_type,
-                                                                        agent_version_major), var=unknown)
+                    add_key(
+                        key='computer-agent_version-all-{}'.format(agent_version), var=unknown)
+                    add_key(key='computer-agent_version-{}-{}'.format(os_type,
+                                                                    agent_version), var=unknown)
+                    add_key(
+                        key='computer-agent_version_major-all-{}'.format(agent_version_major), var=unknown)
+                    add_key(key='computer-agent_version_major-{}-{}'.format(os_type,
+                                                                            agent_version_major), var=unknown)
 
-                add_key(key=get_status(
-                    am_status, 'module-am_status-all'), var=unknown)
-                add_key(key=get_status(
-                    wr_status, 'module-wr_status-all'), var=unknown)
-                add_key(key=get_status(
-                    fw_status, 'module-fw_status-all'), var=unknown)
-                add_key(key=get_status(
-                    ip_status, 'module-ip_status-all'), var=unknown)
-                add_key(key=get_status(
-                    im_status, 'module-im_status-all'), var=unknown)
-                add_key(key=get_status(
-                    li_status, 'module-li_status-all'), var=unknown)
+                    add_key(key=get_status(
+                        am_status, 'module-am_status-all'), var=unknown)
+                    add_key(key=get_status(
+                        wr_status, 'module-wr_status-all'), var=unknown)
+                    add_key(key=get_status(
+                        fw_status, 'module-fw_status-all'), var=unknown)
+                    add_key(key=get_status(
+                        ip_status, 'module-ip_status-all'), var=unknown)
+                    add_key(key=get_status(
+                        im_status, 'module-im_status-all'), var=unknown)
+                    add_key(key=get_status(
+                        li_status, 'module-li_status-all'), var=unknown)
 
-                add_key(key=get_status(
-                    am_status, 'module-am_status-{}'.format(os_type)), var=unknown)
-                add_key(key=get_status(
-                    wr_status, 'module-wr_status-{}'.format(os_type)), var=unknown)
-                add_key(key=get_status(
-                    fw_status, 'module-fw_status-{}'.format(os_type)), var=unknown)
-                add_key(key=get_status(
-                    ip_status, 'module-ip_status-{}'.format(os_type)), var=unknown)
-                add_key(key=get_status(
-                    im_status, 'module-im_status-{}'.format(os_type)), var=unknown)
-                add_key(key=get_status(
-                    li_status, 'module-li_status-{}'.format(os_type)), var=unknown)
+                    add_key(key=get_status(
+                        am_status, 'module-am_status-{}'.format(os_type)), var=unknown)
+                    add_key(key=get_status(
+                        wr_status, 'module-wr_status-{}'.format(os_type)), var=unknown)
+                    add_key(key=get_status(
+                        fw_status, 'module-fw_status-{}'.format(os_type)), var=unknown)
+                    add_key(key=get_status(
+                        ip_status, 'module-ip_status-{}'.format(os_type)), var=unknown)
+                    add_key(key=get_status(
+                        im_status, 'module-im_status-{}'.format(os_type)), var=unknown)
+                    add_key(key=get_status(
+                        li_status, 'module-li_status-{}'.format(os_type)), var=unknown)
 
-                add_key(key='vulnerabilities-ips_rules-all-all-all',
-                        var=unknown, value=ips_rules)
-                add_key(key='vulnerabilities-ips_rules-{}-all-all'.format(
-                    os_type), var=unknown, value=ips_rules)
-                add_key(key='vulnerabilities-ips_rules-all-{}-all'.format(
-                    ips_status), var=unknown, value=ips_rules)
-                add_key(key='vulnerabilities-ips_rules-all-all-{}'.format(
-                    ips_mode), var=unknown, value=ips_rules)
+                    add_key(key='vulnerabilities-ips_rules-all-all-all',
+                            var=unknown, value=ips_rules)
+                    add_key(key='vulnerabilities-ips_rules-{}-all-all'.format(
+                        os_type), var=unknown, value=ips_rules)
+                    add_key(key='vulnerabilities-ips_rules-all-{}-all'.format(
+                        ips_status), var=unknown, value=ips_rules)
+                    add_key(key='vulnerabilities-ips_rules-all-all-{}'.format(
+                        ips_mode), var=unknown, value=ips_rules)
 
-                add_key(key='vulnerabilities-ips_rules-{}-{}-all'.format(
-                    os_type, ips_status), var=unknown, value=ips_rules)
-                add_key(key='vulnerabilities-ips_rules-{}-{}-{}'.format(
-                    os_type, ips_status, ips_mode), var=unknown, value=ips_rules)
+                    add_key(key='vulnerabilities-ips_rules-{}-{}-all'.format(
+                        os_type, ips_status), var=unknown, value=ips_rules)
+                    add_key(key='vulnerabilities-ips_rules-{}-{}-{}'.format(
+                        os_type, ips_status, ips_mode), var=unknown, value=ips_rules)
 
-                add_key(key='vulnerabilities-ips_rules-all-{}-{}'.format(
-                    ips_status, ips_mode), var=unknown, value=ips_rules)
-                add_key(key='vulnerabilities-ips_rules-{}-all-{}'.format(
-                    os_type, ips_mode), var=unknown, value=ips_rules)
- 
+                    add_key(key='vulnerabilities-ips_rules-all-{}-{}'.format(
+                        ips_status, ips_mode), var=unknown, value=ips_rules)
+                    add_key(key='vulnerabilities-ips_rules-{}-all-{}'.format(
+                        os_type, ips_mode), var=unknown, value=ips_rules)
+                except Exception as e:
+                    logging.info('ds_summary unknown - error: {}'.format(e))
     except Exception as e:
         logging.info('ds_summary - error: {}'.format(e))
 
