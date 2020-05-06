@@ -107,8 +107,18 @@ Import the dashboard located on: grafana/dash.json
 
 * **filtering by type:** 
   
-![dashboard](img/grafana-dash-type.png)
+![dashboard](img/grafana-dash-type.pn
 
+
+## Referencess:
+
+### DS 9-11 SDK Python project:
+
+I've included inside this project the last version of the SDK for DS 9 to 11 versions. The code was developed by @marknca and is available here: [https://github.com/deep-security/deep-security-py/](https://github.com/deep-security/deep-security-py/).
+
+### Prometheus Collecctor:
+
+I've based the collector structure on this example [https://github.com/jakirpatel/prometheus-custom-collector/blob/master/code/collector.py](https://github.com/jakirpatel/prometheus-custom-collector/blob/master/code/collector.py) developed by @jakirpatel.
 
 
 
