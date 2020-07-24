@@ -26,11 +26,14 @@ try:
     ds_ver_ssl = env.str(
         "DS_VERIFY_SSL", default=config.DS_IGNORE_VERIFY_SSL)
 except Exception as e:
-    logging.info('failed to load configurations...')    
+    logging.info('failed to load configuration...')    
 
+try:
+    ds_user = (base64.b64decode(ds_user))
+    ds_pass = (base64.b64decode(ds_pass))
+except Exception as e:
+    logging.info('failed to decode credentials...')    
 
-ds_user = (base64.b64decode(ds_user))
-ds_pass = (base64.b64decode(ds_pass))
 
 linux_regex = 'linux|amazon|debian|ubuntu|oracle|centos|red\shat'
 
@@ -50,6 +53,7 @@ def ds_get():
     mgr.sign_in()
     logging.info('retrieving computers on deep security manager..')
     mgr.computers.get()
+
     try:
         # for computer_id in mgr.computers.find(computer_group_id=computer_group_id):
         # for computer_id in mgr.computers.find(platform = '.*'):
@@ -206,11 +210,19 @@ def get_rules(module=None):
     if module is None:
         raise ValueError('get_rules: empty call')
     else:
-        f = re.match(r'.*\s(\d+)\srules.*', module)
-        rules = f.group(1)
-        if 'no' in rules:
-            rules = 0
-        return int(rules)
+        try:
+            f = re.match(r'.*\s(\d+)\srules.*', module)
+            if f is not None:
+                rules = f.group(1)
+                if 'no' in rules:
+                    rules = 0
+                return int(rules)
+            else:
+                rules = 0
+                return int(rules) 
+        except Exception as e:
+            logging.info('get_rules - fail to extract rules: {}'.format(e))
+
 
 
 def get_module_status(module=None):
@@ -286,7 +298,7 @@ def ds_summary():
     mgr.computers.get()
     try:
         # for computer_id in mgr.computers.find(computer_group_id=computer_group_id):
-        for computer_id in mgr.computers.find(platform='.*'):
+        for computer_id in mgr.computers.find(name='.*'):
             fw_rules = 0
             ips_rules = 0
             li_rules = 0
@@ -313,54 +325,59 @@ def ds_summary():
                 raise Exception('failed to get li rules')
 
             # convert
-     
-            platform = computer.platform.lower()
-            agent_status = computer.overall_status.lower()
-            # agent_message = str(
-            #     computer.computer_status.agent_status_messages).lower()
-            agent_version_major = int(computer.overall_version.split('.')[0])
-            agent_version = computer.overall_version
-            os_type = get_os(platform)
+            try:
+                platform = computer.platform.lower()
+                agent_status = computer.overall_status.lower()
+                # agent_message = str(
+                #     computer.computer_status.agent_status_messages).lower()
+                agent_version_major = int(computer.overall_version.split('.')[0])
+                agent_version = computer.overall_version
+                os_type = get_os(platform)
 
-            am_status = str(
-                computer.overall_anti_malware_status).lower()
-            wr_status = str(
-                computer.overall_web_reputation_status).lower()
-            fw_status = str(
-                computer.overall_firewall_status).lower()
-            ip_status = str(
-                computer.overall_intrusion_prevention_status).lower()
-            im_status = str(
-                computer.overall_integrity_monitoring_status).lower()
-            li_status = str(
-                computer.overall_log_inspection_status).lower()
-            ips_status = None
-            ips_mode = None
+                am_status = str(
+                    computer.overall_anti_malware_status).lower()
+                wr_status = str(
+                    computer.overall_web_reputation_status).lower()
+                fw_status = str(
+                    computer.overall_firewall_status).lower()
+                ip_status = str(
+                    computer.overall_intrusion_prevention_status).lower()
+                im_status = str(
+                    computer.overall_integrity_monitoring_status).lower()
+                li_status = str(
+                    computer.overall_log_inspection_status).lower()
+                ips_status = None
+                ips_mode = None
+            except Exception as e:
+                logging.info('ds summary - getting status: {}'.format(e))
     
 
             total += 1
 
             if computer.overall_intrusion_prevention_status is not None:
-                module_agent_status = get_module_status(
-                    computer.overall_intrusion_prevention_status)
-                protect_mode = computer.overall_intrusion_prevention_status.lower()
-                # agent_mode = computer.computer_settings.firewall_setting_network_engine_mode.value.lower()
+                try:
+                    module_agent_status = get_module_status(
+                        computer.overall_intrusion_prevention_status)
+                    protect_mode = computer.overall_intrusion_prevention_status.lower()
+                    # agent_mode = computer.computer_settings.firewall_setting_network_engine_mode.value.lower()
 
-                if 'prevent' in protect_mode and not 'inactive' in protect_mode:
-                    ips_status = 'prevent'
-                elif 'detect' in protect_mode and not 'inactive' in protect_mode:
-                    ips_status = 'detect'
-                else:
-                    # not activated, 'off, installed, 2 rules' and 'off, not installed, no rules' will match this case
-                    ips_status = 'discovered'
-                    logging.debug('ips_status - not prevent|detect: {}'.format(
-                        computer.intrusion_prevention.module_status.agent_status_message.lower()))
+                    if 'prevent' in protect_mode and not 'inactive' in protect_mode:
+                        ips_status = 'prevent'
+                    elif 'detect' in protect_mode and not 'inactive' in protect_mode:
+                        ips_status = 'detect'
+                    else:
+                        # not activated, 'off, installed, 2 rules' and 'off, not installed, no rules' will match this case
+                        ips_status = 'discovered'
+                        logging.debug('ips_status - not prevent|detect: {}'.format(
+                            computer.intrusion_prevention.module_status.agent_status_message.lower()))
 
-                # if 'inline' in agent_mode and not 'inactive' in module_agent_status:
-                #     ips_mode = 'inline'
-                # elif 'tap' in agent_mode and not 'inactive' in module_agent_status:
-                #     ips_mode = 'tap'
-                ips_mode = 'inline'
+                    # if 'inline' in agent_mode and not 'inactive' in module_agent_status:
+                    #     ips_mode = 'inline'
+                    # elif 'tap' in agent_mode and not 'inactive' in module_agent_status:
+                    #     ips_mode = 'tap'
+                    ips_mode = 'inline'
+                except Exception as e:
+                    logging.info('ds summary - fail to detect overall_intrusion_prevention_status: {}'.format(e))
 
             ips_rules_total += ips_rules
             if re.match('^managed.*online.*', agent_status):
@@ -651,7 +668,7 @@ def ds_summary():
             else:
                 try:
                     logging.debug(
-                        'unknown computer: {}'.format(computer.host_name))
+                        'unknown computer id: {}'.format(computer.id))
                     ips_rules_unknown_total += ips_rules
 
                     add_key(key=get_status(
@@ -742,6 +759,8 @@ def ds_summary():
     logging.info(
         'total ips rules found - unknown agents: {}'.format(ips_rules_unknown_total))
     logging.info('total ips rules found: {}'.format(ips_rules_total))
+    logging.info('total computers: {}'.format(total))
+
 
     summary = {
         'timestamp': datetime.now(),
@@ -756,7 +775,7 @@ def ds_summary():
     mgr.sign_out()
     return summary
 
-
+# temporary disabling
 logging.info('starting application: calling get_summary')
 summary = get_summary()
 
@@ -768,7 +787,7 @@ def main():
     and any required variables and prints their output.
     '''
     # ds_summary()
-    # ds_get()
+    ds_get()
 
 
 if __name__ == '__main__':

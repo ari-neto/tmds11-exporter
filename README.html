@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>README.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="1-tmds11-exporter">1. tmds11-exporter</h1>
+<p>This project creates a prometheus collector getting metrics from Deep Security DSM 11.0.</p>
+<p>The data is aggregated in count and segmented in 3 groups:</p>
+<ul>
+<li>deep_security_computers</li>
+<li>deep_security_modules</li>
+<li>deep_security_vulnerabilities</li>
+</ul>
+<p><img src="img/tmds-exporter.png" alt="diagram"></p>
+<h2 id="11-prometheus-labels">1.1 prometheus labels</h2>
+<ul>
+<li>
+<p><strong>deep_security_computers</strong></p>
+<ul>
+<li>labels:
+<ul>
+<li>metric: <em>platform</em> | <em>os_type</em> | <em>agent_version</em> | <em>agent_version_major</em></li>
+<li>type: <em>managed</em> | <em>warning</em> | <em>critical</em> | <em>unmanaged</em> | <em>offline</em> | <em>unknown</em></li>
+<li>platform: <em>all</em> | <em>linux</em> | <em>windows</em></li>
+<li>status: <em>(os version)</em> | <em>(agent version)</em></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>deep_security_modules</strong></p>
+<ul>
+<li>labels:
+<ul>
+<li>metric: <em>am_status</em> | <em>wr_status</em> | <em>fw_status</em> | <em>ip_status</em> | <em>im_status</em> | <em>li_status</em></li>
+<li>type: <em>managed</em> | <em>warning</em> | <em>critical</em> | <em>unmanaged</em> | <em>offline</em> | <em>unknown</em></li>
+<li>platform: <em>all</em> | <em>linux</em> | <em>windows</em></li>
+<li>status: <em>on</em> | <em>off</em></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>deep_security_vulnerabilities</strong></p>
+<ul>
+<li>labels:
+<ul>
+<li>metric: <em>am_status</em> | <em>wr_status</em> | <em>fw_status</em> | <em>ip_status</em> | <em>im_status</em> | <em>li_status</em></li>
+<li>type: <em>managed</em> | <em>warning</em> | <em>critical</em> | <em>unmanaged</em> | <em>offline</em> | <em>unknown</em></li>
+<li>platform: <em>linux</em> | <em>windows</em></li>
+<li>status: <em>all</em> | <em>discovered</em> | <em>detect</em> | <em>prevent</em></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>About vulnerabilities status:</p>
+<ul>
+<li><strong>discovered:</strong> vulnerabilities that are detected but the IPS is not enabled on the host</li>
+<li><strong>detect:</strong> vulnerabilities with IPS enabled but configured on detect mode</li>
+<li><strong>prevent:</strong> vulnerabilities with IPS enabled and configured on prevent mode</li>
+</ul>
+<h2 id="12-environment">1.2 environment:</h2>
+<ul>
+<li><strong>python</strong>: <em>python 2.7</em> (required)</li>
+<li><strong>prometheus</strong>: <em>v2.16</em> (tested with this version)</li>
+<li><strong>grafana</strong>: <em>6.6.2</em> (tested with this version)</li>
+</ul>
+<h2 id="13-configuration">1.3 configuration</h2>
+<h3 id="131-create-a-virtual-environment">1.3.1 create a virtual environment</h3>
+<h4 id="1311-virtualenv">1.3.1.1 virtualenv</h4>
+<pre class="hljs"><code><div>virtualenv venv
+source venv/bin/activate
+pip install -r requirements.txt
+</div></code></pre>
+<h4 id="1312-pipenv">1.3.1.2 pipenv</h4>
+<pre class="hljs"><code><div>pipenv --two
+pipenv shell
+pip install -r requiriments.txt
+</div></code></pre>
+<h3 id="132-running-the-app">1.3.2 running the app:</h3>
+<p>You should configure a config.py (<strong>renaming config_sample.py to config.py</strong> with your configuration), or using environment variables, to configure:</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Description</th>
+<th>Value</th>
+<th>Value Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DS_HOST</td>
+<td>DSM Hostname</td>
+<td>ip</td>
+<td>fqdn</td>
+</tr>
+<tr>
+<td>DS_PORT</td>
+<td>DSM TCP Port</td>
+<td>port Number</td>
+<td>string</td>
+</tr>
+<tr>
+<td>DS_USER</td>
+<td>User Account (read only)</td>
+<td>user_name - base64 encoded</td>
+<td>string</td>
+</tr>
+<tr>
+<td>DS_PASS</td>
+<td>User Password</td>
+<td>user_pass - base64 encoded</td>
+<td>string</td>
+</tr>
+<tr>
+<td>DS_VERIFY_SSL</td>
+<td>SSL Verify</td>
+<td>True</td>
+<td>False</td>
+</tr>
+<tr>
+<td>DS_API_CHECK</td>
+<td>Cache API data</td>
+<td>time in minutes</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>SERVER_PORT</td>
+<td>Prometheus Collector TCP Port</td>
+<td>port number</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>LOG_LEVEL</td>
+<td>Log level</td>
+<td>INFO</td>
+<td>WARN</td>
+</tr>
+</tbody>
+</table>
+<p>To encode your credentials:</p>
+<pre class="hljs"><code><div><span class="hljs-built_in">echo</span> -ne <span class="hljs-string">'&lt;ds_user&gt;'</span>|base64
+<span class="hljs-built_in">echo</span> -ne <span class="hljs-string">'&lt;ds_pass&gt;'</span>|base64
+</div></code></pre>
+<h3 id="133-enabling-soap-web-api">1.3.3 enabling soap web api</h3>
+<p>We need to enable SOAP Web API on the DSM. To do it, you should to to:</p>
+<ul>
+<li><em>Administration</em> tab</li>
+<li>
+<ul>
+<li>System settings* pane</li>
+</ul>
+</li>
+<li><em>SOAP Web Service API</em> option - check '<strong>enable</strong>' radio button</li>
+</ul>
+<p><img src="img/sap_api_config.png" alt="soap_api"></p>
+<h3 id="134-grafana-dashboard">1.3.4 grafana dashboard:</h3>
+<p>Import the dashboard located on: grafana/dash.json</p>
+<ul>
+<li><strong>dashboard:</strong></li>
+</ul>
+<p><img src="img/grafana-dash.png" alt="dashboard"></p>
+<ul>
+<li><strong>filtering by type:</strong></li>
+</ul>
+<p><img src="img/grafana-dash-type.png" alt="dashboard"></p>
+<h2 id="14-executing-the-collector-with-supervisor">1.4 executing the collector with supervisor</h2>
+<h3 id="141-creating-a-zip-file-with-all-the-dependencies-on-redhat">1.4.1 creating a zip file with all the dependencies (on redhat)</h3>
+<pre class="hljs"><code><div>easy_install pip
+pip install virtualenv
+virtualenv venv
+<span class="hljs-built_in">source</span> venv/bin/activate
+pip install -r requirements.txt
+</div></code></pre>
+<p>checking supervisord:</p>
+<pre class="hljs"><code><div>./venv/bin/supervisord -version
+</div></code></pre>
+<p>create tar file</p>
+<pre class="hljs"><code><div>tar -zcvf tmds11-exporter.tar.gz tmds11-exporter
+</div></code></pre>
+<h4 id="1421---copy-and-configure-on-opt">1.4.2.1 - copy and configure on /opt</h4>
+<pre class="hljs"><code><div>scp tmds11-exporter.tar.gz &lt;user_name&gt;@&lt;server_name&gt;:/home/&lt;user_name&gt;
+tar xzvf tmds11-exporter.tar.gz
+sudo mv tmds11-exporter /opt/
+</div></code></pre>
+<p>checking if the supervisord version is 4.2.0:</p>
+<pre class="hljs"><code><div>/opt/tmds11-exporter/venv/bin/python2.7 /opt/tmds11-exporter/venv/bin/supervisord -version
+</div></code></pre>
+<p>checking with your collector config.py is configured:</p>
+<pre class="hljs"><code><div><span class="hljs-built_in">cd</span> /opt/tmds11-exporter/
+/opt/tmds11-exporter/venv/bin/python2.7 src/collector.py
+</div></code></pre>
+<p>creating supervisor conf file:</p>
+<pre class="hljs"><code><div>sudo mkdir /etc/supervisor
+sudo -s
+/opt/tmds11-exporter/venv/bin/python2.7 /opt/tmds11-exporter/venv/bin/echo_supervisord_conf  &gt;  /etc/supervisor/supervisord.conf
+sudo cp supervisord.conf /etc/supervisor
+</div></code></pre>
+<p>creating the systemd daemon configuration:</p>
+<pre class="hljs"><code><div>sudo vi /usr/lib/systemd/system/supervisord.service
+</div></code></pre>
+<p>you will need to add this lines on that file:</p>
+<pre class="hljs"><code><div>[Unit]                                                              
+ Description=supervisord - Supervisor process control system <span class="hljs-keyword">for</span> UNIX
+ Documentation=http://supervisord.org                                
+ After=network.target                                                
+ [Service]
+ User=ec2-user                                                           
+ Type=forking                                                        
+ ExecStart=/opt/tmds11-exporter/venv/bin/python2.7 /opt/tmds11-exporter/venv/bin/supervisord -c /etc/supervisor/supervisord.conf             
+ ExecReload=/opt/tmds11-exporter/venv/bin/python2.7 /opt/tmds11-exporter/venv/bin/supervisorctl reload                            
+ ExecStop=/opt/tmds11-exporter/venv/bin/python2.7 /opt/tmds11-exporter/venv/bin/supervisorctl shutdown                            
+ [Install]                                                           
+ WantedBy=multi-user.target
+</div></code></pre>
+<p><strong>Obs:</strong> change the user (ec2-user) to the user that you defined to run the script</p>
+<p>start daemon:</p>
+<pre class="hljs"><code><div>sudo systemctl start supervisord
+sudo systemctl <span class="hljs-built_in">enable</span> supervisord
+sudo systemctl status supervisord
+</div></code></pre>
+<h4 id="1422---configure-supervisord">1.4.2.2 - configure supervisord</h4>
+<pre class="hljs"><code><div>sudo vi /etc/supervisor/supervisord.conf
+</div></code></pre>
+<p>add this lines on /etc/supervisor/supervisord.conf:</p>
+<pre class="hljs"><code><div>[program:tmds11-exporter]
+<span class="hljs-built_in">command</span>=/opt/tmds11-exporter/venv/bin/python2.7 -u src/collector.py
+user=ec2-user
+autostart=<span class="hljs-literal">true</span>
+autorestart=<span class="hljs-literal">true</span>
+directory=/opt/tmds11-exporter
+stdout_logfile=/opt/tmds11-exporter/tmds11-exporter_output.txt
+stderr_logfile=/opt/tmds11-exporter/tmds11-exporter_output_err.txt
+redirect_stderr=<span class="hljs-literal">true</span>
+</div></code></pre>
+<p><strong>Obs:</strong> change the user (ec2-user) to the user that you defined to run the script</p>
+<p>reload the configiration:</p>
+<pre class="hljs"><code><div>systemctl reload supervisord
+</div></code></pre>
+<p>check status:</p>
+<pre class="hljs"><code><div>/opt/tmds11-exporter/venv/bin/python2.7 /opt/tmds11-exporter/venv/bin/supervisorctl
+</div></code></pre>
+<p>the output should be something like that:</p>
+<pre class="hljs"><code><div>tmds11-exporter                  RUNNING   pid 1770, uptime 0:00:39
+</div></code></pre>
+<p>test the collector:</p>
+<pre class="hljs"><code><div>curl localhost:9090
+</div></code></pre>
+<h2 id="references">References:</h2>
+<h3 id="ds-9-11-sdk-python-project">DS 9-11 SDK Python project:</h3>
+<p>I've included inside this project the last version of the SDK for DS 9 to 11 versions. The code was developed by @marknca and is available here: <a href="https://github.com/deep-security/deep-security-py/">https://github.com/deep-security/deep-security-py/</a>.</p>
+<h3 id="prometheus-collector">Prometheus Collector:</h3>
+<p>I've based the collector structure on this example <a href="https://github.com/jakirpatel/prometheus-custom-collector/blob/master/code/collector.py">https://github.com/jakirpatel/prometheus-custom-collector/blob/master/code/collector.py</a> developed by @jakirpatel.</p>
+<h3 id="supervisor-configuration">Supervisor Configuration:</h3>
+<p>I've based the collector structure on this examples:</p>
+<ul>
+<li>Install and configuration: <a href="https://www.linuxhelp.com/how-to-install-and-configure-daemon-for-supervisor-on-centos7">https://www.linuxhelp.com/how-to-install-and-configure-daemon-for-supervisor-on-centos7</a></li>
+<li>App configuration: <a href="https://medium.com/@jayden.chua/use-supervisor-to-run-your-python-tests-13e91171d6d3">https://medium.com/@jayden.chua/use-supervisor-to-run-your-python-tests-13e91171d6d3</a></li>
+</ul>
+<h2 id="support">Support:</h2>
+<p>This project is not part of any Trend Micro Deep Security project and it is not supported by Trend Micro.</p>
+<p>Use and adapt to your needs and PRs are welcomed.</p>
+
+</body>
+</html>

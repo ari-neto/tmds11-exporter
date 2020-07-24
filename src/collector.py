@@ -50,7 +50,6 @@ class CustomCollector(object):
             if key != 'timestamp':
                 # print(var[key])
                 for k, val in ds_metrics[key].items():
-                    # print('{} - key: {} - value: {}'.format(key, k, val))
  
                     if k.split('-')[2] == 'all':
                         os_platform = k.split('-')[2]
