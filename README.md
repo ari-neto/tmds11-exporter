@@ -1,3 +1,8 @@
+This repo was moved to: [https://github.com/TrendMicro-Community/tmds11-exporter](https://github.com/TrendMicro-Community/tmds11-exporter).
+
+For any updates/issues/prs please use the new repo.
+
+
 # 1. tmds11-exporter
 
 This project creates a prometheus collector getting metrics from Deep Security DSM 11.0.
